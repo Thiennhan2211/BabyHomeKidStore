@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>BabyHome Kids Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shop quần áo trẻ em BabyHome đẹp, giá tốt, giao hàng toàn quốc">
+    <meta name="keywords" content="quần áo trẻ em, thời trang bé gái, bé trai, giày dép trẻ em">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="/css/styleindex.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+<div id="toastMessage" class="custom-toast">
+    <i class="fa fa-check-circle fs-5"></i> <span>Đã thêm vào giỏ hàng!</span>
+</div>
+<!-- HEADER -->
+<header class="header">
+    <div class="logo">
+        <a th:href="@{/}"><img th:src="@{/images/logo.jpg}"></a>
+    </div>
+
+    <nav class="menu">
+        <div class="menu-item">
+            <a href="#">Bé gái</a>
+            <div class="menu-dropdown">
+                <div class="mega-col">
+                    <b>Đầm váy</b>
+                    <ul><li>Tất cả đầm váy</li><li>Đầm công chúa</li><li>Đầm ngắn tay</li><li>Đầm dài tay</li><li>Chân váy</li></ul>
+                </div>
+                <div class="mega-col">
+                    <b>Áo</b>
+                    <ul><li>Tất cả áo</li><li>Áo thun</li><li>Áo dài tay</li><li>Áo khoác</li><li>Áo nỉ</li><li>Áo unisex</li></ul>
+                </div>
+                <div class="mega-col">
+                    <b>Quần</b>
+                    <ul><li>Tất cả quần</li><li>Quần short</li><li>Quần dài</li></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <a href="#">Bé trai</a>
+            <div class="menu-dropdown">
+                <div class="mega-col">
+                    <b>Áo</b>
+                    <ul><li>Tất cả áo</li><li>Áo thun ngắn tay</li><li>Áo dài tay</li><li>Áo khoác</li><li>Áo nỉ</li><li>Áo unisex</li></ul>
+                </div>
+                <div class="mega-col">
+                    <b>Quần</b>
+                    <ul><li>Tất cả quần</li><li>Quần short</li><li>Quần dài</li></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <a href="#">Giày dép</a>
+            <div class="menu-dropdown">
+                <div class="mega-col">
+                    <b>Bé gái</b>
+                    <ul><li>Giày cúp bê</li><li>Sandal</li><li>Sneaker</li><li>Dép</li></ul>
+                </div>
+                <div class="mega-col">
+                    <b>Bé trai</b>
+                    <ul><li>Sandal</li><li>Sneaker</li><li>Dép</li></ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <form action="/search" method="get" class="search-box" style="margin: 0;">
+        <input type="text" name="keyword" placeholder="Bạn cần tìm gì?" th:value="${keyword}" required>
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+
+    <div class="icons">
+        <div class="icon phone">
+            <i class="fa fa-phone fs-5"></i>
+            <div class="custom-dropdown contact-box">
+                <div class="contact-item"><i class="fa fa-phone"></i><span>0939594215</span></div>
+                <div class="contact-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg"><span>Zalo</span></div>
+                <div class="contact-item"><i class="fa-brands fa-facebook-messenger"></i><span>Messenger</span></div>
+            </div>
+        </div>
+
+        <div class="icon cart">
+            <a href="/cart" style="color:inherit; text-decoration:none; position:relative;">
+                <i class="fa fa-shopping-cart fs-5"></i>
+                <span class="cart-badge" th:text="${session.cart != null ? session.cart.size() : 0}">0</span>
+            </a>
+
+            <div class="custom-dropdown cart-dropdown" style="width: 320px;">
+                <div class="cart-header" style="background:#f8f9fa;">
+                    <span style="font-weight:bold;">Giỏ hàng của bạn</span>
+                    <a href="/cart" style="color:#1e88e5; text-decoration: none;">Xem chi tiết</a>
+                </div>
+                <div class="cart-body" style="max-height: 300px; overflow-y: auto; padding: 15px;">
+                    <p th:if="${session.cart == null || session.cart.isEmpty()}" style="text-align:center; color:#888; margin: 15px 0;">Chưa có sản phẩm nào.</p>
+
+                    <div th:if="${session.cart != null}">
+                        <div class="cart-item-mini" th:each="item : ${session.cart}">
+                            <img th:src="@{/images/products/{img}(img=${item.image})}">
+                            <div class="cart-item-info">
+                                <div class="cart-item-name" th:text="${item.name}">Tên SP</div>
+                                <div class="cart-item-variant" th:text="${item.color} + ' / ' + ${item.size}">Color/Size</div>
+                                <div class="cart-item-price-row">
+                                    <span class="cart-item-price" th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + 'đ'">Giá</span>
+                                    <span class="cart-item-qty" th:text="'x' + ${item.quantity}">SL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="icon">
+            <a sec:authorize="!isAuthenticated()" href="/login" style="color:inherit; text-decoration:none;">
+                <i class="fa fa-user fs-5"></i>
+            </a>
+
+            <a sec:authorize="isAuthenticated()" href="/profile" style="color:inherit; text-decoration:none; display: flex; align-items: center; gap: 8px;">
+                <i class="fa fa-user fs-5 text-primary"></i>
+                <span style="font-size: 14px; font-weight: bold; white-space: nowrap; color: #1e88e5;">
+                    Hi, <span sec:authentication="name">User</span>
+                </span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- BANNER -->
+
+<div th:if="${keyword != null}" style="min-height: 50vh; padding-top: 40px; margin-bottom: 60px;">
+
+    <h2 class="title-center" th:text="'Kết quả tìm kiếm cho &quot;' + ${keyword} + '&quot;:'">Kết quả tìm kiếm</h2>
+
+    <div class="products" th:if="${products != null and !products.isEmpty()}">
+        <div class="product" th:each="p : ${products}">
+            <div class="product-img">
+                <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}">
+                    <img th:src="@{/images/products/{img}(img=${p.image})}">
+                </a>
+                <div class="product-actions">
+                    <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}" class="action-btn" style="color: inherit;"><i class="fa fa-eye"></i></a>
+                    <div class="action-btn" th:onclick="'addToCartQuick(' + ${p.id} + ')'" ><i class="fa fa-shopping-bag"></i></div>
+                </div>
+            </div>
+            <h3>
+                <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}" th:text="${p.name}" style="text-decoration: none; color: inherit;"></a>
+            </h3>
+            <p th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></p>
+
+            <div class="colors">
+                <span th:if="${p.color != null and !p.color.isEmpty()}"
+                      th:each="c : ${#strings.arraySplit(p.color, '|')}"
+                      class="color"
+                      th:style="'background-color: ' + ${c}">
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${products == null or products.isEmpty()}" style="text-align: center; margin-top: 50px; color: #888;">
+        <i class="fa fa-box-open" style="font-size: 50px; margin-bottom: 20px; color: #ccc;"></i>
+        <h4>Rất tiếc, không tìm thấy sản phẩm nào phù hợp với từ khóa của bạn.</h4>
+        <a href="/" style="display: inline-block; margin-top: 20px; padding: 10px 25px; background: #1e88e5; color: white; text-decoration: none; border-radius: 25px; font-weight: bold;">Quay lại trang chủ</a>
+    </div>
+</div>
+
+<div th:if="${keyword == null}">
+    <!--BANNER-->
+    <div class="banner">
+        <div class="slides">
+            <img class="slide-img" th:each="b : ${banners}" th:src="@{/images/{img}(img=${b})}">
+        </div>
+    </div>
+    <!--PRODUCT-->
+    <h2 class="title-center">Sản phẩm mới</h2>
+    <div class="products">
+        <div class="product" th:each="p : ${products}">
+            <div class="product-img">
+                <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}">
+                    <img th:src="@{/images/products/{img}(img=${p.image})}">
+                </a>
+                <div class="product-actions">
+                    <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}" class="action-btn" style="color: inherit;"><i class="fa fa-eye"></i></a>
+                    <div class="action-btn" th:onclick="'addToCartQuick(' + ${p.id} + ')'" ><i class="fa fa-shopping-bag"></i></div>
+                </div>
+            </div>
+            <h3>
+                <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}" th:text="${p.name}" style="text-decoration: none; color: inherit;"></a>
+            </h3>
+            <p th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></p>
+            <div class="colors">
+                <span th:if="${p.color != null and !p.color.isEmpty()}" th:each="c : ${#strings.arraySplit(p.color, '|')}" class="color" th:style="'background-color: ' + ${c}"></span>
+            </div>
+        </div>
+    </div>
+    <!--CATEGORIES-->
+    <div class="categories">
+        <a href="/category/shoes"><img src="/images/cat2.png" alt="Giày dép trẻ em"></a>
+        <a href="/category/new"><img src="/images/cat3.png" alt="Bộ sưu tập mới"></a>
+    </div>
+    <!--GIRL-->
+    <h2 class="title-center">Thời trang bé gái</h2>
+    <div class="filter">
+        <button onclick="filter('dress')">Đầm</button>
+        <button onclick="filter('shirt')">Áo</button>
+        <button onclick="filter('pants')">Quần</button>
+        <button onclick="filter('set')">Đồ bộ</button>
+        <button onclick="filter('jacket')">Áo khoác</button>
+    </div>
+
+    <div class="products" id="girlProducts">
+        <div class="product" th:each="p : ${girlProducts}" th:attr="data-type=${p.category != null ? p.category.id : ''}">
+            <div class="product-img">
+                <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}">
+                    <img th:src="@{/images/products/{img}(img=${p.image})}">
+                </a>
+                <div class="product-actions">
+                    <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}" class="action-btn" style="color: inherit;"><i class="fa fa-eye"></i></a>
+                    <div class="action-btn" th:onclick="'addToCartQuick(' + ${p.id} + ')'" ><i class="fa fa-shopping-bag"></i></div>
+                </div>
+            </div>
+            <h3>
+                <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}" th:text="${p.name}" style="text-decoration: none; color: inherit;"></a>
+            </h3>
+            <p th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></p>
+            <div class="colors">
+                <span th:if="${p.color != null and !p.color.isEmpty()}" th:each="c : ${#strings.arraySplit(p.color, '|')}" class="color" th:style="'background-color: ' + ${c}"></span>
+            </div>
+        </div>
+    </div>
+<!--BOY-->
+    <h2 class="title-center">Thời trang bé trai</h2>
+    <div class="filter">
+        <button onclick="filterBoy('shirt')">Áo</button>
+        <button onclick="filterBoy('pants')">Quần</button>
+        <button onclick="filterBoy('set')">Đồ bộ</button>
+        <button onclick="filterBoy('jacket')">Áo khoác</button>
+    </div>
+
+    <div class="products" id="boyProducts">
+        <div class="product" th:each="p : ${boyProducts}" th:attr="data-type=${p.category != null ? p.category.id : ''}">
+            <div class="product-img">
+                <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}">
+                    <img th:src="@{/images/products/{img}(img=${p.image})}">
+                </a>
+                <div class="product-actions">
+                    <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}" class="action-btn" style="color: inherit;"><i class="fa fa-eye"></i></a>
+                    <div class="action-btn" th:onclick="'addToCartQuick(' + ${p.id} + ')'" ><i class="fa fa-shopping-bag"></i></div>
+                </div>
+            </div>
+            <h3>
+                <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}" th:text="${p.name}" style="text-decoration: none; color: inherit;"></a>
+            </h3>
+            <p th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></p>
+            <div class="colors">
+                <span th:if="${p.color != null and !p.color.isEmpty()}" th:each="c : ${#strings.arraySplit(p.color, '|')}" class="color" th:style="'background-color: ' + ${c}"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCROLL -->
+<button id="scrollTopBtn">↑</button>
+
+<!-- FOOTER -->
+<footer class="footer">
+
+    <div class="subscribe">
+        <h4>Đăng ký nhận tin</h4>
+
+        <h5>
+            Đăng ký ngay và là người đầu tiên nắm được thông tin khi nhà BabyHome
+            có bộ sưu tập mới, khuyến mãi mới, và các sự kiện sắp diễn ra
+        </h5>
+
+        <div class="form-sub">
+            <input type="email" placeholder="Nhập email">
+            <button>Đăng ký</button>
+        </div>
+    </div>
+
+    <div class="footer-content">
+
+        <div>
+            <h4>Về BabyHome</h4>
+            <a href="#">Tin tức nhà BabyHome</a>
+            <a href="#">Tuyển dụng BabyHome</a>
+        </div>
+
+        <div>
+            <h4>Hỗ trợ</h4>
+            <a href="#">Chính sách đổi trả</a>
+            <a href="#">Hướng dẫn chọn size</a>
+            <a href="#">Hướng dẫn giặt quần áo</a>
+            <a href="#">Tra cứu đơn hàng</a>
+            <a href="#">Giao hàng & phí giao hàng</a>
+        </div>
+
+        <div>
+            <h4>Kết nối</h4>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+
+    </div>
+
+</footer>
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 99999; margin-top: 60px;">
+    <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body fw-bold">
+                <i class="fa fa-check-circle me-2"></i> Đã thêm sản phẩm vào giỏ hàng!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+<script>
+    <!-- SCROLLTOPBTN -->
+    const btn = document.getElementById("scrollTopBtn");
+
+    window.onscroll = function () {
+        btn.style.display = window.scrollY > 200 ? "block" : "none";
+    };
+
+    btn.onclick = function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    <!-- COLOR -->
+    document.querySelectorAll(".colors").forEach(group => {
+        const colors = group.querySelectorAll(".color");
+
+        colors.forEach(c => {
+            c.addEventListener("click", () => {
+
+                colors.forEach(x => x.classList.remove("active"));
+
+                c.classList.add("active");
+            });
+        });
+    });
+    <!--GIRLFILTER-->
+    function filter(type){
+        const items = document.querySelectorAll("#girlProducts .product");
+
+        items.forEach(item => {
+            const cate = item.getAttribute("data-type");
+
+            if(type === "all" || cate === type){
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
+    <!--BOYFILTER-->
+    function filterBoy(type){
+        const items = document.querySelectorAll("#boyProducts .product");
+
+        items.forEach(item => {
+            const cate = item.getAttribute("data-type");
+
+            if(type === "all" || cate === type){
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
+    <!--SHADOWHEADER-->
+    window.addEventListener("scroll", function () {
+        const header = document.querySelector(".header");
+
+        if (window.scrollY > 10) {
+            header.classList.add("sticky-active");
+        } else {
+            header.classList.remove("sticky-active");
+        }
+    });
+    // Hàm Add To Cart bằng AJAX
+    function addToCartAjax(productId) {
+        // Gọi API đã tạo ở Controller
+        fetch(`/api/cart/add?productId=${productId}&quantity=1&color=Mặc định&size=Freesize`, {
+            method: 'POST'
+        })
+            .then(response => {
+                if(response.ok) {
+                    // Hiện Popup Toast
+                    const toastElement = document.getElementById('cartToast');
+                    const toast = new bootstrap.Toast(toastElement);
+                    toast.show();
+
+                    // F5 lại trang sau 1.5 giây để cập nhật lại số lượng giỏ hàng trên Header
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                }
+            });
+    }
+    <!--CART-->
+    // 1. Hàm chung hiện Popup và reload
+    function showToastAndReload() {
+        const toast = document.getElementById("toastMessage");
+        toast.classList.add("show");
+        setTimeout(() => { window.location.reload(); }, 1200); // Đợi 1.2s rồi f5
+    }
+
+    // 2. Hàm Thêm nhanh (Dùng cho trang index)
+    function addToCartQuick(productId) {
+        fetch(`/api/cart/add?productId=${productId}&quantity=1&color=Mặc định&size=Freesize`, { method: 'POST' })
+            .then(res => { if(res.ok) showToastAndReload(); });
+    }
+
+    // 3. Hàm Thêm chi tiết (Dùng cho trang product-detail)
+    function addToCartDetail(event) {
+        event.preventDefault(); // Chặn hành vi submit load trang mặc định
+        const productId = document.querySelector('input[name="productId"]').value;
+        const quantity = document.querySelector('input[name="quantity"]').value;
+
+        const sizeEl = document.querySelector('input[name="size"]:checked');
+        const size = sizeEl ? sizeEl.value : 'Freesize';
+
+        const colorEl = document.querySelector('input[name="color"]:checked');
+        const color = colorEl ? colorEl.value : 'Mặc định';
+
+        fetch(`/api/cart/add?productId=${productId}&quantity=${quantity}&color=${color}&size=${size}`, { method: 'POST' })
+            .then(res => { if(res.ok) showToastAndReload(); });
+    }
+</script>
+<script src="/js/slider.js"></script>
+</body>
+</html>

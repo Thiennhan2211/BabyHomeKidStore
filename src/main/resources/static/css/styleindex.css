@@ -1,0 +1,548 @@
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial;
+    background: linear-gradient(135deg, white, #d6f0ff);
+}
+
+/* ================= HEADER ================= */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 40px;
+    background:#cfe8ff;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+.sticky-active {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+.logo img{
+    height:50px;
+}
+
+/* ================= MENU ================= */
+.menu {
+    display: flex;
+    gap: 25px;
+}
+
+.menu-item {
+    position: relative;
+}
+
+/* TẠO CẦU NỐI VÔ HÌNH CHỐNG RỚT HOVER */
+.menu-item::after, .icon::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: -15px;
+    right: -15px;
+    height: 25px; /* Lấp đầy khoảng hở giữa icon và menu */
+    background: transparent;
+    z-index: 1;
+}
+
+.menu-item > a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+    padding-bottom: 10px; /* Vùng hover an toàn */
+}
+
+/* DROPDOWN MENU BÉ GÁI / BÉ TRAI */
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 15px); /* Cách header 15px */
+    left: 0;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    min-width: max-content;
+    z-index: 100000 !important; /* Chống bị hình ảnh đè */
+}
+
+.menu-item:hover .menu-dropdown {
+    display: flex;
+    gap: 30px;
+}
+
+/* Sửa lỗi dấu chấm đen của Bootstrap */
+.menu-dropdown ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.menu-dropdown li {
+    padding: 8px 0;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.menu-dropdown li:hover {
+    color: #1e88e5;
+    padding-left: 5px;
+}
+
+/* ================= SEARCH BOX (Fix mất CSS) ================= */
+.search-box {
+    display: flex;
+    align-items: center;
+}
+.search-box input {
+    height: 40px;
+    padding: 0 15px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    width: 250px;
+}
+.search-box button {
+    height: 40px;
+    width: 45px;
+    border: none;
+    background: #1e88e5;
+    color: white;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ================= ĐỔI TÊN CLASS CHỐNG BOOTSTRAP ================= */
+/* Bootstrap có sẵn class .col nên ta phải đổi thành .mega-col */
+.menu-dropdown .mega-col {
+    min-width: 150px;
+    text-align: left;
+}
+.menu-dropdown .mega-col b {
+    color: #1e88e5;
+    display: block;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.menu-dropdown .col b {
+    color: #1e88e5;
+    display: block;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* ================= ICON & CUSTOM DROPDOWN ================= */
+.icons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.icon {
+    position: relative;
+    cursor: pointer;
+    padding-bottom: 5px;
+}
+
+/* CUSTOM DROPDOWN CART & CONTACT */
+.custom-dropdown {
+    position: absolute;
+    top: calc(100% + 15px); /* Khoảng cách thả xuống */
+    right: -10px;
+    display: none;
+    z-index: 100000 !important;
+    text-align: left;
+}
+
+.icon:hover .custom-dropdown {
+    display: block;
+}
+
+/* ===== POPUP THÔNG BÁO THUẦN CSS ===== */
+.custom-toast {
+    position: fixed;
+    top: 100px;
+    right: -350px; /* Giấu ra ngoài màn hình */
+    background: #4caf50;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    z-index: 100000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.custom-toast.show {
+    right: 20px; /* Trượt vào trong */
+}
+
+/* ================= CONTACT ================= */
+.contact-box{
+    width:220px;
+    background:white;
+    padding:10px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.15);
+}
+
+.contact-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px;
+    border-radius:20px;
+    background:#fff;
+    cursor:pointer;
+    transition:0.3s;
+    border:1px solid #eee;
+}
+
+.contact-item + .contact-item{
+    margin-top:8px;
+}
+
+.contact-item:hover{
+    background:#f0f8ff;
+}
+
+.contact-item i{
+    color:#1e88e5;
+}
+
+.contact-item img{
+    width:20px;
+}
+
+/* ================= CART ================= */
+.cart-dropdown{
+    width:320px;
+    background:white;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.15);
+    overflow:hidden;
+}
+
+.cart-header{
+    display:flex;
+    justify-content:space-between;
+    padding:12px;
+    border-bottom:1px solid #eee;
+}
+
+.cart-header a{
+    color:#1e88e5;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.cart-body{
+    padding:15px;
+    color:#555;
+}
+/* ================= BANNER ================= */
+.banner{
+    width:80%;
+    margin:30px auto;
+    overflow:hidden;
+    border-radius:10px;
+}
+
+.slides img{
+    width:100%;
+    flex:0 0 100%;
+    height:400px;
+    object-fit:cover;
+}
+.slides{
+    display:flex;
+    transition:0.5s;
+}
+/* ================= PRODUCTS ================= */
+.title-center{
+    text-align:center;
+    margin:30px 0;
+}
+
+.products{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:25px;
+    width:80%;
+    margin:auto;
+}
+
+.product{
+    width:220px;
+    min-width:220px;
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.product:hover{
+    transform:translateY(-5px);
+}
+
+/* IMAGE */
+.product-img{
+    position:relative;
+}
+
+.product-img img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+/* ACTION HOVER */
+.product-actions{
+    position:absolute;
+    right:10px;
+    bottom:10px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    opacity:0;
+    transform:translateX(10px);
+    transition:0.3s;
+}
+
+.product:hover .product-actions{
+    opacity:1;
+    transform:translateX(0);
+}
+
+.action-btn{
+    width:35px;
+    height:35px;
+    background:white;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
+    cursor:pointer;
+    text-decoration: none;
+}
+
+.action-btn:hover{
+    background:#1e88e5;
+    color:white;
+}
+
+/* COLOR */
+.colors{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin-top:10px;
+}
+
+.color{
+    width:15px;
+    height:15px;
+    border-radius:50%;
+    border:2px solid transparent;
+    cursor:pointer;
+}
+
+.color.active{
+    border:2px solid black;
+}
+
+/* ================= CATEGORY ================= */
+.categories{
+    display:flex;
+    width:50%;
+    margin:40px auto;
+    gap:5px;
+}
+
+.categories a{
+    width:50%;
+    overflow:hidden;
+    flex:1;
+    border-radius:12px;
+}
+
+.categories img{
+    width:100%;
+    height:200px; /* chỉnh chiều cao nhỏ lại */
+    object-fit:contain;
+    transition:0.3s;
+}
+
+/* hover zoom nhẹ */
+.categories a:hover img{
+    transform:scale(1.05);
+}
+/* ================= FILTER ================= */
+.filter{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.filter button{
+    padding:8px 15px;
+    border:none;
+    background:#eee;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+.filter button:hover{
+    background:#1e88e5;
+    color:white;
+}
+
+/* ================= SCROLL BUTTON ================= */
+#scrollTopBtn{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:50%;
+    background:#1e88e5;
+    color:white;
+    display:none;
+    cursor:pointer;
+}
+
+/* ================= FOOTER ================= */
+.footer{
+    background:#222;
+    color:white;
+    padding:30px;
+    margin-top:40px;
+}
+.subscribe {
+    text-align: center;
+}
+
+.subscribe {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+/* text */
+.subscribe h4,
+.subscribe h5 {
+    margin-bottom: 10px;
+}
+
+/* nhóm input + button */
+.subscribe .form-sub {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+.subscribe input,
+.subscribe button {
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    font-size: 14px;
+    text-align: center;
+}
+
+.subscribe input {
+    width: 250px;
+    padding: 0 15px;
+}
+
+.subscribe button {
+    padding: 0 20px;
+    background: #357abd;
+    color: white;
+    cursor: pointer;
+}
+.subscribe button:hover {
+    background: #4a90e2;
+    transform: translateY(-1px);
+}
+
+.footer-content{
+    display:flex;
+    justify-content:space-around;
+}
+
+.footer a{
+    color:white;
+    text-decoration:none;
+    display:block;
+    margin-top:5px;
+}
+.footer-content div:last-child {
+    text-align: center;
+}
+
+.footer-content div:last-child a {
+    display: inline-block;  /* nằm ngang */
+    margin: 10px 8px 0;
+    font-size: 20px;
+}
+/* ===== GIỎ HÀNG MINI (THUẦN CSS - KHÔNG CẦN BOOTSTRAP) ===== */
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 3px 6px;
+    border-radius: 50%;
+    line-height: 1;
+}
+
+.cart-item-mini {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+.cart-item-mini:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.cart-item-mini img {
+    width: 50px; height: 50px; object-fit: cover; border-radius: 5px; border: 1px solid #eee;
+}
+.cart-item-info {
+    margin-left: 12px; flex-grow: 1; text-align: left;
+}
+.cart-item-name {
+    font-size: 13px; font-weight: bold; color: #333; max-width: 180px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cart-item-variant { font-size: 12px; color: #888; margin-top: 3px; }
+.cart-item-price-row { display: flex; justify-content: space-between; margin-top: 5px; }
+.cart-item-price { color: #d0021b; font-weight: bold; font-size: 13px; }
+.cart-item-qty { color: #888; font-size: 13px; }

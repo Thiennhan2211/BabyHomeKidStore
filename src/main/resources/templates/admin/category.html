@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Category</title>
+    <link rel="stylesheet" href="/css/category.css">
+</head>
+
+<body>
+<!-- HEADER -->
+<div class="header">
+
+    <!-- LEFT -->
+    <div class="logo">
+        <img th:src="@{/images/logo.jpg}">
+    </div>
+
+    <div class="nav">
+        <a href="/admin/category">Category</a>
+        <a href="/admin/product">Product</a>
+        <a href="/admin/order">Order</a>
+        <a href="/admin/customer">Customer</a>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-header">
+        <div class="profile">
+            <span>
+                Hi <span th:text="${#authentication.name}"></span>
+            </span>
+        </div>
+
+        <form method="post" action="/logout">
+            <button type="submit" class="logout">Logout</button>
+        </form>
+    </div>
+
+</div>
+<h3 class="title">Category List</h3>
+
+<div class="container">
+
+    <!-- LEFT: LIST -->
+    <div class="left">
+        <h3 class="title">Category List</h3>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+
+            <!-- FIX Ở ĐÂY -->
+            <tr th:each="c : ${categories}"
+                th:attr="data-id=${c.id}, data-name=${c.name}"
+                onclick="selectCategory(this)">
+
+                <td th:text="${c.id}"></td>
+                <td th:text="${c.name}"></td>
+
+            </tr>
+        </table>
+    </div>
+
+    <!-- RIGHT: DETAIL -->
+    <div class="right">
+        <h3 class="title">Category Detail</h3>
+        <form method="post">
+
+            <label>ID</label>
+            <input type="text" name="id" id="id">
+
+            <label>Name</label>
+            <input type="text" name="name" id="name">
+
+            <br><br>
+
+            <!-- ADD -->
+            <button type="submit" formaction="/admin/category/add">
+                Add New
+            </button>
+
+            <!-- UPDATE -->
+            <button type="submit" formaction="/admin/category/update">
+                Update
+            </button>
+
+            <!-- DELETE -->
+            <button type="button" onclick="deleteCategory()">
+                Delete
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+    function selectCategory(row){
+        const id = row.getAttribute("data-id");
+        const name = row.getAttribute("data-name");
+
+        document.getElementById("id").value = id;
+        document.getElementById("name").value = name;
+    }
+
+    function deleteCategory(){
+        const id = document.getElementById("id").value;
+
+        if(id === ""){
+            alert("Chọn category trước!");
+            return;
+        }
+
+        if(confirm("Bạn có chắc muốn xoá?")){
+            window.location.href = "/admin/category/delete/" + id;
+        }
+    }
+</script>
+
+</body>
+</html>
