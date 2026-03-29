@@ -15,47 +15,73 @@
 
     <nav class="menu">
         <div class="menu-item">
-            <a href="#">Bé gái</a>
+            <a href="/collection?gender=girl">Bé gái</a>
             <div class="menu-dropdown">
                 <div class="mega-col">
                     <b>Đầm váy</b>
-                    <ul><li>Tất cả đầm váy</li><li>Đầm công chúa</li><li>Đầm ngắn tay</li><li>Đầm dài tay</li><li>Chân váy</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=dress" style="color: inherit; text-decoration: none;">Tất cả đầm váy</a></li>
+                        <li><a href="/collection?gender=girl&category=dress" style="color: inherit; text-decoration: none;">Đầm công chúa</a></li>
+                        <li><a href="/collection?gender=girl&category=dress" style="color: inherit; text-decoration: none;">Đầm ngắn/dài tay</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
                     <b>Áo</b>
-                    <ul><li>Tất cả áo</li><li>Áo thun</li><li>Áo dài tay</li><li>Áo khoác</li><li>Áo nỉ</li><li>Áo unisex</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=shirt" style="color: inherit; text-decoration: none;">Tất cả áo</a></li>
+                        <li><a href="/collection?gender=girl&category=shirt" style="color: inherit; text-decoration: none;">Áo thun</a></li>
+                        <li><a href="/collection?gender=girl&category=jacket" style="color: inherit; text-decoration: none;">Áo khoác</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
-                    <b>Quần</b>
-                    <ul><li>Tất cả quần</li><li>Quần short</li><li>Quần dài</li></ul>
+                    <b>Quần & Đồ bộ</b>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=pants" style="color: inherit; text-decoration: none;">Tất cả quần</a></li>
+                        <li><a href="/collection?gender=girl&category=pants" style="color: inherit; text-decoration: none;">Quần short / dài</a></li>
+                        <li><a href="/collection?gender=girl&category=set" style="color: inherit; text-decoration: none;">Đồ bộ (Set)</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <div class="menu-item">
-            <a href="#">Bé trai</a>
+            <a href="/collection?gender=boy">Bé trai</a>
             <div class="menu-dropdown">
                 <div class="mega-col">
                     <b>Áo</b>
-                    <ul><li>Tất cả áo</li><li>Áo thun ngắn tay</li><li>Áo dài tay</li><li>Áo khoác</li><li>Áo nỉ</li><li>Áo unisex</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=shirt" style="color: inherit; text-decoration: none;">Tất cả áo</a></li>
+                        <li><a href="/collection?gender=boy&category=shirt" style="color: inherit; text-decoration: none;">Áo thun</a></li>
+                        <li><a href="/collection?gender=boy&category=jacket" style="color: inherit; text-decoration: none;">Áo khoác</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
-                    <b>Quần</b>
-                    <ul><li>Tất cả quần</li><li>Quần short</li><li>Quần dài</li></ul>
+                    <b>Quần & Đồ bộ</b>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=pants" style="color: inherit; text-decoration: none;">Tất cả quần</a></li>
+                        <li><a href="/collection?gender=boy&category=pants" style="color: inherit; text-decoration: none;">Quần short / dài</a></li>
+                        <li><a href="/collection?gender=boy&category=set" style="color: inherit; text-decoration: none;">Đồ bộ (Set)</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <div class="menu-item">
-            <a href="#">Giày dép</a>
+            <a href="/collection?category=shoes">Giày dép</a>
             <div class="menu-dropdown">
                 <div class="mega-col">
                     <b>Bé gái</b>
-                    <ul><li>Giày cúp bê</li><li>Sandal</li><li>Sneaker</li><li>Dép</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=shoes" style="color: inherit; text-decoration: none;">Tất cả giày dép nữ</a></li>
+                        <li><a href="/collection?gender=girl&category=shoes" style="color: inherit; text-decoration: none;">Giày búp bê / Sandal</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
                     <b>Bé trai</b>
-                    <ul><li>Sandal</li><li>Sneaker</li><li>Dép</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=shoes" style="color: inherit; text-decoration: none;">Tất cả giày dép nam</a></li>
+                        <li><a href="/collection?gender=boy&category=shoes" style="color: inherit; text-decoration: none;">Sneaker / Dép</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -150,41 +176,74 @@
             <div class="tab-title">Thông tin tài khoản</div>
             <p style="color: #666; font-size: 14px;">Vui lòng cập nhật đầy đủ thông tin bên dưới để nhận ưu đãi đặc biệt</p>
 
-            <form class="profile-form">
+            <form class="profile-form" th:action="@{/profile/update-info}" method="post">
                 <label>Họ và Tên</label>
-                <input type="text" th:value="${#authentication.name}"> <label>Email</label>
-                <input type="email" placeholder="Nhập email của bạn...">
+                <input type="text" name="fullname" th:value="${user.fullname}" placeholder="Nhập họ và tên...">
+
+                <label>Email</label>
+                <input type="email" name="email" th:value="${user.email}" placeholder="Nhập email của bạn...">
 
                 <label>Sinh nhật</label>
-                <input type="date">
+                <input type="date" name="dob" th:value="${user.dob}">
 
                 <label>Giới tính</label>
-                <select>
-                    <option>Nam</option>
-                    <option>Nữ</option>
-                    <option>Khác</option>
+                <select name="gender">
+                    <option value="Nam" th:selected="${user.gender == 'Nam'}">Nam</option>
+                    <option value="Nữ" th:selected="${user.gender == 'Nữ'}">Nữ</option>
+                    <option value="Khác" th:selected="${user.gender == 'Khác'}">Khác</option>
                 </select>
 
-                <button type="button" class="btn-update">Cập nhật</button>
+                <button type="submit" class="btn-update">Cập nhật</button>
             </form>
         </div>
 
         <div id="tab-order" class="tab-pane">
             <div class="tab-title">Đơn mua của tôi</div>
 
-            <div class="order-tabs">
-                <button class="active">Tất cả</button>
-                <button>Thanh toán</button>
-                <button>Chờ giao</button>
-                <button>Đang giao</button>
-                <button>Đã giao</button>
-                <button>Đã hủy</button>
+            <div class="order-tabs" style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <button class="order-tab-btn active" onclick="filterOrders('all', this)" style="border:none; background:none; color:#4a90e2; font-weight:bold; border-bottom: 2px solid #4a90e2;">Tất cả</button>
+                <button class="order-tab-btn" onclick="filterOrders('pending', this)" style="border:none; background:none; color:#666;">Chờ xác nhận</button>
+                <button class="order-tab-btn" onclick="filterOrders('APPROVED', this)" style="border:none; background:none; color:#666;">Đang giao</button>
+                <button class="order-tab-btn" onclick="filterOrders('COMPLETED', this)" style="border:none; background:none; color:#666;">Hoàn thành</button>
+                <button class="order-tab-btn" onclick="filterOrders('CANCELED', this)" style="border:none; background:none; color:#666;">Đã hủy</button>
             </div>
 
-            <div class="empty-state">
+            <div th:if="${myOrders == null || myOrders.isEmpty()}" class="empty-state" style="text-align: center; padding: 50px 0;">
                 <i class="fa fa-box-open" style="font-size: 50px; color: #ccc; margin-bottom: 15px;"></i>
                 <p>Bạn chưa có đơn hàng nào.</p>
-                <a href="/">Bắt đầu mua sắm</a>
+                <a href="/" class="btn btn-primary" style="background: #4a90e2; border: none; padding: 10px 20px; border-radius: 6px;">Bắt đầu mua sắm</a>
+            </div>
+
+            <div th:if="${myOrders != null && !myOrders.isEmpty()}" id="order-list-container">
+
+                <div th:each="order : ${myOrders}" class="order-card-item" th:attr="data-status=${order.status}" style="border: 1px solid #e1efff; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
+                        <div>
+                            <span style="font-weight: bold; color: #333;">Mã đơn: #<span th:text="${order.id}"></span></span>
+                            <span style="color: #888; font-size: 13px; margin-left: 10px;" th:text="${#dates.format(order.createDate, 'dd/MM/yyyy HH:mm')}"></span>
+                        </div>
+                        <div>
+                            <span th:if="${order.status == 'pending'}" style="color: #f39c12; font-weight: bold; font-size: 14px;"><i class="fa fa-clock"></i> Chờ xác nhận</span>
+                            <span th:if="${order.status == 'APPROVED'}" style="color: #28a745; font-weight: bold; font-size: 14px;"><i class="fa fa-truck"></i> Đang giao</span>
+                            <span th:if="${order.status == 'COMPLETED'}" style="color: #20c997; font-weight: bold; font-size: 14px;"><i class="fa fa-check-circle"></i> Hoàn thành</span>
+                            <span th:if="${order.status == 'CANCELED'}" style="color: #dc3545; font-weight: bold; font-size: 14px;"><i class="fa fa-times-circle"></i> Đã hủy</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #666; font-size: 14px;">Thanh toán (COD)</span>
+                        <div style="font-size: 18px;">
+                            Thành tiền: <span style="color: #d0021b; font-weight: bold;" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="empty-filter-msg" style="display: none; text-align: center; padding: 40px 0; color: #888;">
+                    <i class="fa fa-search" style="font-size: 40px; color: #ddd; margin-bottom: 15px; display: block;"></i>
+                    Không có đơn hàng nào trong trạng thái này.
+                </div>
+
             </div>
         </div>
 
@@ -192,36 +251,58 @@
             <div class="tab-title">Địa chỉ nhận hàng</div>
 
             <div style="display: flex; gap: 30px;">
-                <form class="profile-form" style="flex: 1;">
-                    <input type="text" placeholder="Họ tên người nhận" style="margin-bottom: 10px;">
-                    <input type="text" placeholder="Số điện thoại" style="margin-bottom: 10px;">
-                    <input type="text" placeholder="Tỉnh/Thành phố" style="margin-bottom: 10px;">
-                    <input type="text" placeholder="Quận/Huyện" style="margin-bottom: 10px;">
-                    <input type="text" placeholder="Địa chỉ cụ thể (Số nhà, đường...)" style="margin-bottom: 10px;">
+                <form class="profile-form" style="flex: 1;" th:action="@{/profile/update-address}" method="post">
+                    <input type="text" name="phone" th:value="${user.phone}" placeholder="Số điện thoại" style="margin-bottom: 10px;" required>
+                    <input type="text" name="province" placeholder="Tỉnh/Thành phố" style="margin-bottom: 10px;" required>
+                    <input type="text" name="district" placeholder="Quận/Huyện" style="margin-bottom: 10px;" required>
+                    <input type="text" name="ward" placeholder="Phường/Xã" style="margin-bottom: 10px;" required>
+                    <input type="text" name="specific" placeholder="Địa chỉ cụ thể (Số nhà, đường...)" style="margin-bottom: 10px;" required>
 
-                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                        <input type="checkbox" style="width: auto; height: auto;"> Đặt làm địa chỉ mặc định
-                    </label>
-                    <button type="button" class="btn-update">Thêm mới</button>
+                    <button type="submit" class="btn-update">Cập nhật địa chỉ</button>
                 </form>
 
                 <div style="width: 300px;">
-                    <div class="address-box">
-                        <h5><span sec:authentication="name">User</span></h5>
-                        <p>0939594215</p>
-                        <p>123 Đường Lê Lợi, Phường Bến Thành, Quận 1, TP. HCM</p>
-                        <span class="badge-default">Địa chỉ mặc định</span>
-                        <button class="btn-delete-address"><i class="fa fa-trash"></i> Xóa</button>
+                    <div class="address-box" th:if="${user.address != null}">
+                        <h5><span th:text="${user.fullname != null ? user.fullname : user.username}">User</span></h5>
+                        <p th:text="${user.phone}">Chưa có SĐT</p>
+                        <p th:text="${user.address}">Chưa có địa chỉ</p>
+                        <span class="badge-default">Địa chỉ hiện tại</span>
+                    </div>
+                    <div class="address-box" th:if="${user.address == null}">
+                        <p style="color: #888;">Bạn chưa thiết lập địa chỉ giao hàng.</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="tab-voucher" class="tab-pane">
-            <div class="tab-title">Voucher của tôi</div>
-            <div class="empty-state">
-                <i class="fa fa-ticket-alt" style="font-size: 50px; color: #ccc; margin-bottom: 15px;"></i>
-                <p>Hiện chưa có mã khuyến mãi nào.</p>
+            <div style="border-bottom: 1px solid #cfe8ff; margin-bottom: 20px; padding-bottom: 15px;">
+                <h3 style="margin: 0; color: #333; font-size: 22px; font-weight: bold;">Voucher của tôi</h3>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-bottom: 30px; background: #fbfdff; padding: 20px; border-radius: 8px; border: 1px solid #e1efff;">
+                <input type="text" placeholder="Nhập mã khuyến mãi của bạn" style="flex: 1; padding: 12px 15px; border: 1px solid #ddd; border-radius: 6px; outline: none; font-size: 14px;">
+                <button style="background: #4a90e2; color: white; border: none; padding: 0 30px; border-radius: 6px; font-weight: bold; cursor: pointer;">Lưu Mã</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+
+                <div th:each="v : ${vouchers}"
+                     th:if="${user.usedVouchers == null || !#strings.contains(user.usedVouchers, v.code)}"
+                     style="display: flex; border: 1px solid #e1efff; border-radius: 8px; overflow: hidden; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+
+                    <div th:class="${v.color == 'blue'} ? 'vc-left bg-blue' : 'vc-left bg-orange'" style="width: 130px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 15px;">
+                        <i th:class="${v.color == 'blue'} ? 'fa fa-ticket-alt' : 'fa fa-truck-fast'" style="font-size: 28px; margin-bottom: 8px;"></i>
+                        <span style="font-size: 13px; font-weight: bold;" th:text="${v.code}">CODE</span>
+                    </div>
+
+                    <div style="padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <h5 style="margin: 0 0 5px; font-size: 17px; color: #222; font-weight: bold;" th:text="${v.title}">Tiêu đề</h5>
+                        <p style="margin: 0 0 10px; font-size: 13px; color: #777;" th:text="${v.description}">Mô tả</p>
+                        <a href="/cart" th:style="${v.color == 'blue'} ? 'font-weight: bold; text-decoration: none; font-size: 14px; color: #4a90e2' : 'font-weight: bold; text-decoration: none; font-size: 14px; color: #ff9b71'">Dùng ngay</a>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -235,7 +316,10 @@
 
     </div>
 </div>
-
+<div th:if="${success}" id="toastMessage" class="toast-popup">
+    <i class="fa fa-check-circle" style="font-size: 20px;"></i>
+    <span th:text="${success}"></span>
+</div>
 <footer class="footer">
 
     <div class="subscribe">
@@ -297,6 +381,60 @@
         document.getElementById(tabId).classList.add("active");
         evt.currentTarget.classList.add("active");
     }
+    // Hàm lọc đơn hàng
+    function filterOrders(status, btnElement) {
+        // 1. Gỡ hiệu ứng màu xanh của tất cả các nút
+        let buttons = document.querySelectorAll('.order-tab-btn');
+        buttons.forEach(btn => {
+            btn.style.color = '#666';
+            btn.style.fontWeight = 'normal';
+            btn.style.borderBottom = 'none';
+            btn.classList.remove('active');
+        });
+
+        // 2. Thêm hiệu ứng màu xanh cho nút vừa bấm
+        btnElement.style.color = '#4a90e2';
+        btnElement.style.fontWeight = 'bold';
+        btnElement.style.borderBottom = '2px solid #4a90e2';
+        btnElement.classList.add('active');
+
+        // 3. Lặp qua các đơn hàng và Ẩn/Hiện
+        let orders = document.querySelectorAll('.order-card-item');
+        let hasVisibleOrder = false;
+
+        orders.forEach(order => {
+            let orderStatus = order.getAttribute('data-status');
+
+            // Nếu chọn "all" hoặc trạng thái khớp nhau -> Hiện
+            if (status === 'all' || orderStatus === status) {
+                order.style.display = 'block';
+                hasVisibleOrder = true;
+            } else {
+                order.style.display = 'none'; // Ngược lại thì Ẩn
+            }
+        });
+
+        // 4. Nếu không có đơn nào thỏa mãn điều kiện lọc thì hiện thông báo rỗng
+        let emptyMsg = document.getElementById('empty-filter-msg');
+        if (emptyMsg) {
+            emptyMsg.style.display = hasVisibleOrder ? 'none' : 'block';
+        }
+    }
+    // popup trượt ra, đứng im 3 giây rồi tự động trượt mất
+    document.addEventListener("DOMContentLoaded", function() {
+        const toast = document.getElementById("toastMessage");
+        if (toast) {
+            // Đợi 100ms để CSS load kịp rồi mới trượt ra
+            setTimeout(() => {
+                toast.classList.add("show");
+            }, 100);
+
+            // Đứng im khoe sắc 3 giây xong tự động trượt vào lại
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+    });
 </script>
 </body>
 </html>

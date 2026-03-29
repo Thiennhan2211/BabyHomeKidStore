@@ -52,7 +52,8 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/images/**",
                                 "/register",
-                                "/login"
+                                "/login",
+                                "/error"
                         ).permitAll()
 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -69,7 +70,7 @@ public class SecurityConfig {
 
                             if (authorities.stream()
                                     .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-                                response.sendRedirect("/admin/category");
+                                response.sendRedirect("/admin/home");
                             } else {
                                 response.sendRedirect("/");
                             }

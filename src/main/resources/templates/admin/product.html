@@ -13,10 +13,12 @@
     </div>
 
     <div class="nav">
+        <a href="/admin/home">Home</a>
         <a href="/admin/category">Category</a>
-        <a href="/admin/product">Product</a>
+        <a href="/admin/product" class="active">Product</a>
         <a href="/admin/order">Order</a>
         <a href="/admin/customer">Customer</a>
+        <a href="/admin/voucher">Voucher</a>
     </div>
 
     <div class="right-header">
@@ -51,7 +53,7 @@
                     data-color=${p.color},
                     data-size=${p.size},
                     data-gender=${p.gender},
-                    data-category=${p.category != null ? p.category.id : ''}"
+                    data-category=${p.category}"
                 onclick="selectProduct(this)">
 
                 <td th:text="${p.id}"></td>
@@ -59,10 +61,14 @@
                 <td th:text="${p.price}"></td>
                 <td>
                     <div style="display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; max-width: 80px;">
-                        <span th:if="${p.color != null and !p.color.isEmpty()}"
-                              th:each="c : ${#strings.arraySplit(p.color, '|')}"
-                              th:style="'background-color: ' + ${c} + '; width: 15px; height: 15px; border: 1px solid #ccc; border-radius: 50%;'">
-                        </span>
+                        <th:block th:if="${p.color != null and !p.color.isEmpty()}">
+                            <th:block th:each="c : ${#strings.arraySplit(p.color, '|')}">
+                <span th:with="colorArr=${#strings.arraySplit(c, ':')}"
+                      th:style="'background-color: ' + ${colorArr[0]} + '; width: 15px; height: 15px; border: 1px solid #ccc; border-radius: 50%;'"
+                      th:title="${#arrays.length(colorArr) > 1 ? colorArr[1] : colorArr[0]}">
+                </span>
+                            </th:block>
+                        </th:block>
                     </div>
                 </td>
             </tr>
@@ -90,7 +96,7 @@
             <label>Color</label>
             <button type="button" onclick="openColorModal()">Chọn màu</button>
             <input type="hidden" id="color" name="color">
-            <div id="colorPreview"></div>
+            <div id="colorPreview" style="margin-top: 10px;"></div>
 
             <label>Size</label>
             <button type="button" onclick="openSizeModal()">Chọn Size</button>
@@ -104,8 +110,8 @@
             </select>
 
             <label>Category</label>
-            <select id="category" name="categoryId">
-                <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+            <select name="category" id="category">
+                <option th:each="c : ${categories}" th:value="${c}" th:text="${c}"></option>
             </select>
 
             <br><br>
@@ -121,12 +127,11 @@
 <div id="imageModal" class="modal">
     <div class="modal-content large">
         <h3>Chọn ảnh</h3>
-        <div id="dropZone" class="drop-zone">
+        <div id="dropZone" class="drop-zone" onclick="document.getElementById('fileInput').click()">
             <p>Kéo & thả ảnh vào đây hoặc click để chọn</p>
-            <input type="file" id="fileInput" hidden>
+            <input type="file" id="fileInput" hidden accept="image/*">
             <img id="imgPreview">
         </div>
-        <br>
         <div class="btn-group">
             <button onclick="saveImage()">Lưu</button>
             <button onclick="closeImageModal()">Huỷ</button>
@@ -135,10 +140,9 @@
 </div>
 
 <div id="colorModal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" style="width: 550px;">
         <h3>Chọn màu</h3>
         <div class="color-grid" id="colorGrid"></div>
-        <br>
         <div class="btn-group">
             <button onclick="saveColor()">Lưu</button>
             <button onclick="closeColorModal()">Huỷ</button>
@@ -151,7 +155,6 @@
         <h3>Chọn Size</h3>
         <div id="sizeGrid" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px;">
         </div>
-        <br>
         <div class="btn-group">
             <button onclick="saveSize()">Lưu</button>
             <button onclick="closeSizeModal()">Huỷ</button>
@@ -162,90 +165,35 @@
 <script>
     let selectedColors = [];
     let selectedSizes = [];
+    let tempImageName = ""; // Lưu giữ tên file ảnh trước khi Save
 
-    // Danh sách size tiêu chuẩn
-    const sizeList = [
-        "2Y-11-12kg", "4Y-14-16kg", "6Y-19-21kg",
-        "8Y-23-25kg", "10Y-27-31kg", "12Y-33-35kg"
+    // ==========================================
+    // 1. LOGIC XỬ LÝ SIZE
+    // ==========================================
+    const clothingSizes = ["2Y-11-12kg", "4Y-14-16kg", "6Y-19-21kg", "8Y-23-25kg", "10Y-27-31kg", "12Y-33-35kg"];
+    const shoeSizes = [
+        "Size 25-16cm", "Size 26-16.5cm", "Size 27-17cm", "Size 28-17.5cm",
+        "Size 29-18cm", "Size 30-18.5cm", "Size 31-19cm", "Size 32-19.5cm", "Size 33-20cm"
     ];
 
-    /* ===== CHỌN SẢN PHẨM TỪ LIST ===== */
-    function selectProduct(row){
-        document.getElementById("id").value = row.dataset.id || "";
-        document.getElementById("name").value = row.dataset.name || "";
-        document.getElementById("price").value = row.dataset.price || "";
-        document.getElementById("image").value = row.dataset.image || "";
-        document.getElementById("gender").value = row.dataset.gender || "boy";
-        document.getElementById("category").value = row.dataset.category || "";
+    function renderSizeGrid() {
+        const sizeGrid = document.getElementById("sizeGrid");
+        sizeGrid.innerHTML = "";
 
-        // Xử lý ảnh
-        const preview = document.getElementById("preview");
-        if(row.dataset.image){
-            preview.src = "/images/products/" + row.dataset.image;
-            preview.style.display = "block";
-        } else {
-            preview.style.display = "none";
-        }
+        const h4Cloth = document.createElement("h4"); h4Cloth.innerText = "Size Quần Áo"; h4Cloth.style.width="100%"; h4Cloth.style.textAlign="center";
+        sizeGrid.appendChild(h4Cloth);
+        clothingSizes.forEach(s => createSizeBtn(s, sizeGrid));
 
-        // Xử lý màu sắc
-        const colorInput = document.getElementById("color");
-        if(row.dataset.color){
-            colorInput.value = row.dataset.color;
-            selectedColors = row.dataset.color.split("|");
-        } else {
-            colorInput.value = "";
-            selectedColors = [];
-        }
-
-        // Xử lý Size
-        const sizeInput = document.getElementById("size");
-        if(row.dataset.size){
-            sizeInput.value = row.dataset.size;
-            selectedSizes = row.dataset.size.split("|");
-        } else {
-            sizeInput.value = "";
-            selectedSizes = [];
-        }
-
-        renderColorPreview();
-        renderSizePreview();
+        const h4Shoe = document.createElement("h4"); h4Shoe.innerText = "Size Giày Dép"; h4Shoe.style.width="100%"; h4Shoe.style.marginTop="20px"; h4Shoe.style.textAlign="center";
+        sizeGrid.appendChild(h4Shoe);
+        shoeSizes.forEach(s => createSizeBtn(s, sizeGrid));
     }
 
-    /* ===== HIỂN THỊ PREVIEW ===== */
-    function renderColorPreview() {
-        const colorPreview = document.getElementById("colorPreview");
-        colorPreview.innerHTML = "";
-        selectedColors.forEach(c => {
-            if(c.trim() !== "") {
-                const swatch = document.createElement("div");
-                swatch.className = "preview-swatch";
-                swatch.style.background = c;
-                colorPreview.appendChild(swatch);
-            }
-        });
-    }
-
-    function renderSizePreview() {
-        const sizePreview = document.getElementById("sizePreview");
-        sizePreview.innerHTML = "";
-        selectedSizes.forEach(s => {
-            if(s.trim() !== "") {
-                const tag = document.createElement("div");
-                tag.className = "preview-size-tag";
-                tag.innerText = s;
-                sizePreview.appendChild(tag);
-            }
-        });
-    }
-
-    /* ===== CHUẨN BỊ LƯỚI SIZE TRONG MODAL ===== */
-    const sizeGrid = document.getElementById("sizeGrid");
-    sizeList.forEach(s => {
+    function createSizeBtn(s, container) {
         const btn = document.createElement("div");
         btn.className = "size-item";
         btn.innerText = s;
         btn.dataset.val = s;
-
         btn.onclick = () => {
             if(btn.classList.contains("selected")){
                 btn.classList.remove("selected");
@@ -255,119 +203,199 @@
                 selectedSizes.push(s);
             }
         };
-        sizeGrid.appendChild(btn);
-    });
+        container.appendChild(btn);
+    }
+    renderSizeGrid();
 
-    function updateSizeGridVisuals() {
+    function openSizeModal(){
         document.querySelectorAll(".size-item").forEach(item => {
-            if(selectedSizes.includes(item.dataset.val)){
-                item.classList.add("selected");
-            } else {
-                item.classList.remove("selected");
-            }
+            if(selectedSizes.includes(item.dataset.val)) item.classList.add("selected");
+            else item.classList.remove("selected");
         });
+        document.getElementById("sizeModal").style.display = "flex";
     }
 
+    function closeSizeModal(){ document.getElementById("sizeModal").style.display = "none"; }
+
     function saveSize(){
-        const sizeInput = document.getElementById("size");
-        if(selectedSizes.length > 0){
-            sizeInput.value = selectedSizes.join("|");
-        } else {
-            sizeInput.value = "";
-        }
+        document.getElementById("size").value = selectedSizes.join("|");
         renderSizePreview();
         closeSizeModal();
     }
 
-    function openSizeModal(){
-        updateSizeGridVisuals();
-        document.getElementById("sizeModal").style.display = "flex";
-    }
-    function closeSizeModal(){ document.getElementById("sizeModal").style.display = "none"; }
-
-    /* ===== MODAL MÀU SẮC (GIỮ NGUYÊN) ===== */
-    const colors = [];
-    const steps = [0, 51, 102, 153, 204, 255];
-    for(let r of steps){ for(let g of steps){ for(let b of steps){ colors.push(`rgb(${r},${g},${b})`); } } }
-
-    const colorGrid = document.getElementById("colorGrid");
-    colors.forEach(c => {
-        const div = document.createElement("div");
-        div.className = "color-item";
-        div.style.background = c;
-        div.dataset.val = c;
-
-        div.onclick = () => {
-            if(div.classList.contains("selected")){
-                div.classList.remove("selected");
-                selectedColors = selectedColors.filter(x => x !== c);
-            } else {
-                div.classList.add("selected");
-                selectedColors.push(c);
-            }
-        };
-        colorGrid.appendChild(div);
-    });
-
-    function updateColorGridVisuals() {
-        document.querySelectorAll(".color-item").forEach(item => {
-            if(selectedColors.includes(item.dataset.val)){ item.classList.add("selected"); }
-            else { item.classList.remove("selected"); }
+    function renderSizePreview() {
+        const sp = document.getElementById("sizePreview"); sp.innerHTML = "";
+        selectedSizes.forEach(s => {
+            const d = document.createElement("div"); d.className = "preview-size-tag"; d.innerText = s; sp.appendChild(d);
         });
     }
 
+    // ==========================================
+    // 2. LOGIC XỬ LÝ MÀU SẮC (AUTO GÁN TÊN MÀU THÔNG MINH)
+    // ==========================================
+
+    // Thuật toán tìm tên màu Tiếng Việt gần giống nhất dựa trên RGB
+    function getClosestColorName(r, g, b) {
+        const baseColors = [
+            { name: "Đen", r: 0, g: 0, b: 0 },
+            { name: "Trắng", r: 255, g: 255, b: 255 },
+            { name: "Xám", r: 128, g: 128, b: 128 },
+            { name: "Xám nhạt", r: 192, g: 192, b: 192 },
+            { name: "Đỏ", r: 255, g: 0, b: 0 },
+            { name: "Xanh dương", r: 0, g: 0, b: 255 },
+            { name: "Xanh dương nhạt", r: 135, g: 206, b: 235 },
+            { name: "Xanh lá", r: 0, g: 255, b: 0 },
+            { name: "Xanh lá đậm", r: 0, g: 128, b: 0 },
+            { name: "Vàng", r: 255, g: 255, b: 0 },
+            { name: "Cam", r: 255, g: 165, b: 0 },
+            { name: "Hồng", r: 255, g: 192, b: 203 },
+            { name: "Hồng đậm", r: 255, g: 20, b: 147 },
+            { name: "Tím", r: 128, g: 0, b: 128 },
+            { name: "Tím nhạt", r: 238, g: 130, b: 238 },
+            { name: "Nâu", r: 165, g: 42, b: 42 },
+            { name: "Be (Beige)", r: 245, g: 245, b: 220 },
+            { name: "Xanh ngọc", r: 0, g: 255, b: 255 }
+        ];
+
+        let minDistance = Infinity;
+        let closestName = "";
+        baseColors.forEach(color => {
+            // Công thức tính khoảng cách 3D của màu sắc
+            const distance = Math.sqrt(Math.pow(r - color.r, 2) + Math.pow(g - color.g, 2) + Math.pow(b - color.b, 2));
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestName = color.name;
+            }
+        });
+        return closestName;
+    }
+
+    const colorGrid = document.getElementById("colorGrid");
+    const steps = [0, 51, 102, 153, 204, 255];
+
+    // Vòng lặp tạo 216 màu
+    for(let r of steps){
+        for(let g of steps){
+            for(let b of steps){
+                const c = `rgb(${r},${g},${b})`;
+                const colorName = getClosestColorName(r, g, b);
+                const val = `${c}:${colorName}`; // Định dạng lưu: "rgb(255,0,0):Đỏ"
+
+                const div = document.createElement("div");
+                div.className = "color-item";
+                div.style.background = c;
+                div.title = colorName; // Rê chuột vào chấm màu sẽ hiện tên
+                div.dataset.val = val;
+                div.onclick = () => {
+                    div.classList.toggle("selected");
+                    if(div.classList.contains("selected")) selectedColors.push(val);
+                    else selectedColors = selectedColors.filter(x => x !== val);
+                };
+                colorGrid.appendChild(div);
+            }
+        }
+    }
+
+    function openColorModal(){
+        document.querySelectorAll(".color-item").forEach(item => {
+            if(selectedColors.includes(item.dataset.val)) item.classList.add("selected");
+            else item.classList.remove("selected");
+        });
+        document.getElementById("colorModal").style.display = "flex";
+    }
+
+    function closeColorModal(){ document.getElementById("colorModal").style.display = "none"; }
+
     function saveColor(){
-        const colorInput = document.getElementById("color");
-        if(selectedColors.length > 0){ colorInput.value = selectedColors.join("|"); }
-        else { colorInput.value = ""; }
+        document.getElementById("color").value = selectedColors.join("|");
         renderColorPreview();
         closeColorModal();
     }
 
-    function openColorModal(){ updateColorGridVisuals(); document.getElementById("colorModal").style.display = "flex"; }
-    function closeColorModal(){ document.getElementById("colorModal").style.display = "none"; }
+    // Hiển thị dạng: (Chấm màu) Tên màu
+    function renderColorPreview() {
+        const cp = document.getElementById("colorPreview"); cp.innerHTML = "";
+        selectedColors.forEach(c => {
+            const parts = c.split(':');
+            const rgb = parts[0];
+            const name = parts[1] || parts[0]; // Nếu sản phẩm cũ không có tên thì lấy tạm rgb
 
-    /* ===== IMAGE MODAL & KHÁC ===== */
-    const dropZone = document.getElementById("dropZone");
-    const fileInput = document.getElementById("fileInput");
-    const imgPreview = document.getElementById("imgPreview");
-
-    dropZone.onclick = () => fileInput.click();
-    fileInput.onchange = e => { showPreview(e.target.files[0]); };
-    dropZone.ondragover = e => { e.preventDefault(); dropZone.style.background = "#e3f0ff"; };
-    dropZone.ondragleave = () => { dropZone.style.background = "#f9fbff"; };
-    dropZone.ondrop = e => { e.preventDefault(); fileInput.files = e.dataTransfer.files; showPreview(e.dataTransfer.files[0]); };
-
-    function showPreview(file){
-        if(file) { imgPreview.src = URL.createObjectURL(file); imgPreview.style.display = "block"; }
+            const d = document.createElement("div");
+            d.className = "preview-size-tag";
+            d.style.marginRight = "8px";
+            d.style.marginBottom = "8px";
+            d.innerHTML = `<span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${rgb}; margin-right:5px; border:1px solid #ccc; vertical-align:middle;"></span>${name}`;
+            cp.appendChild(d);
+        });
     }
 
-    function saveImage(){
-        const file = fileInput.files[0];
-        if(file){
-            document.getElementById("image").value = file.name;
-            const preview = document.getElementById("preview");
-            preview.src = URL.createObjectURL(file);
-            preview.style.display = "block";
+    // ==========================================
+    // 3. LOGIC XỬ LÝ ẢNH (ĐÃ FIX LỖI KHÔNG TẢI ĐƯỢC ẢNH)
+    // ==========================================
+    function openImageModal(){ document.getElementById("imageModal").style.display = "flex"; }
+    function closeImageModal(){
+        document.getElementById("imageModal").style.display = "none";
+        // Reset lại giá trị
+        document.getElementById("fileInput").value = "";
+        document.getElementById("imgPreview").style.display = "none";
+    }
+
+    // Khi người dùng bấm chọn file
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+        if(e.target.files && e.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imgPreview').src = e.target.result;
+                document.getElementById('imgPreview').style.display = "block";
+            }
+            reader.readAsDataURL(e.target.files[0]);
+            tempImageName = e.target.files[0].name; // Lưu lại tên ảnh
+        }
+    });
+
+    function saveImage() {
+        if(tempImageName) {
+            document.getElementById("image").value = tempImageName;
+            document.getElementById("preview").src = document.getElementById('imgPreview').src;
+            document.getElementById("preview").style.display = "block";
         }
         closeImageModal();
     }
 
-    function openImageModal(){ document.getElementById("imageModal").style.display = "flex"; }
-    function closeImageModal(){ document.getElementById("imageModal").style.display = "none"; }
+    // ==========================================
+    // 4. CLICK VÀO HÀNG ĐỂ SỬA
+    // ==========================================
+    function selectProduct(row){
+        document.getElementById("id").value = row.dataset.id || "";
+        document.getElementById("name").value = row.dataset.name || "";
+        document.getElementById("price").value = row.dataset.price || "";
+        document.getElementById("image").value = row.dataset.image || "";
+        document.getElementById("gender").value = row.dataset.gender || "boy";
+        document.getElementById("category").value = row.dataset.category || "";
 
-    function deleteProduct(){
-        const idVal = document.getElementById("id").value;
-        if(!idVal){ alert("Chọn sản phẩm trước!"); return; }
-        if(confirm("Xoá sản phẩm?")){ window.location.href = "/admin/product/delete/" + idVal; }
+        const preview = document.getElementById("preview");
+        if(row.dataset.image){
+            preview.src = "/images/products/" + row.dataset.image;
+            preview.style.display = "block";
+        } else { preview.style.display = "none"; }
+
+        selectedColors = row.dataset.color ? row.dataset.color.split("|") : [];
+        selectedSizes = row.dataset.size ? row.dataset.size.split("|") : [];
+
+        renderColorPreview();
+        renderSizePreview();
     }
 
-    document.querySelector("button[formaction='/admin/product/add']").onclick = function(e){
-        if(document.getElementById("id").value){
-            alert("Add không cần ID (hãy để trống trường ID hoặc F5 lại trang để Add mới)");
-            e.preventDefault();
+    function deleteProduct() {
+        const id = document.getElementById("id").value;
+        if(id) {
+            if(confirm("Xác nhận xoá sản phẩm " + id + "?")) {
+                // Thêm logic chuyển hướng API của bạn vào đây
+            }
+        } else {
+            alert("Vui lòng chọn sản phẩm cần xoá ở bảng bên trái!");
         }
-    };
+    }
 </script>
 
 </body>

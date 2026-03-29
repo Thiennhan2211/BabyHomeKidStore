@@ -1,0 +1,73 @@
+.collection-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 15px;
+    min-height: 50vh;
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* ===== THANH LỌC (FILTER BAR) ===== */
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    border: 1px solid #e0e0e0;
+    background: white;
+    padding: 8px 18px;
+    border-radius: 20px; /* Bo góc tròn trịa hơn cho hợp đồ em bé */
+    cursor: pointer;
+    font-size: 14px;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.filter-btn i {
+    font-size: 12px;
+    color: #888;
+    transition: all 0.3s ease;
+}
+
+/* ĐỔI SANG MÀU XANH PASTEL KHI RÊ CHUỘT / ĐANG CHỌN */
+.filter-btn:hover, .filter-btn.active {
+    border-color: #4a90e2;     /* Viền xanh lam */
+    color: #4a90e2;           /* Chữ xanh lam */
+    background-color: #eaf4ff; /* Nền xanh pastel siêu nhạt */
+}
+
+.filter-btn:hover i, .filter-btn.active i {
+    color: #4a90e2;
+}
+
+/* ===== SẮP XẾP (SORT BOX) ===== */
+.sort-box {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.sort-box select {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.sort-box select:hover, .sort-box select:focus {
+    border-color: #4a90e2;
+}

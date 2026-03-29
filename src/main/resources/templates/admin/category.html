@@ -11,14 +11,14 @@
 
     <!-- LEFT -->
     <div class="logo">
-        <img th:src="@{/images/logo.jpg}">
-    </div>
-
+        <img th:src="@{/images/logo.jpg}"></div>
     <div class="nav">
-        <a href="/admin/category">Category</a>
+        <a href="/admin/home">Home</a>
+        <a href="/admin/category" class="active">Category</a>
         <a href="/admin/product">Product</a>
         <a href="/admin/order">Order</a>
         <a href="/admin/customer">Customer</a>
+        <a href="/admin/voucher">Voucher</a>
     </div>
 
     <!-- RIGHT -->
@@ -75,17 +75,17 @@
 
             <!-- ADD -->
             <button type="submit" formaction="/admin/category/add">
-                Add New
+                Tạo mới
             </button>
 
             <!-- UPDATE -->
             <button type="submit" formaction="/admin/category/update">
-                Update
+                Sửa
             </button>
 
             <!-- DELETE -->
             <button type="button" onclick="deleteCategory()">
-                Delete
+                Xoá
             </button>
 
         </form>

@@ -1,29 +1,181 @@
-body { background: linear-gradient(135deg, white, #d6f0ff); } /* Nền hơi xanh nhẹ */
-.cart-container { margin-top: 40px; margin-bottom: 50px; }
+/* ===== GIAO DIỆN GIỎ HÀNG PASTEL BLUE ===== */
+body {
+    background: linear-gradient(135deg, white, #d6f0ff);
+}
 
-/* Tông màu chủ đạo Pastel Blue */
-.bg-pastel-blue { background-color: #d6e8f9 !important; }
-.text-pastel-blue { color: #5a9bd4 !important; }
-.btn-pastel-blue {
-    background-color: #8bbce6;
-    color: white;
+.cart-container {
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+.bg-pastel-blue { background-color: #cfe8ff !important; }
+.text-pastel-blue { color: #4a90e2 !important; }
+
+.btn-pastel-blue,
+a.btn-pastel-blue {
+    background: linear-gradient(135deg, #cfe8ff, #6ec6ff);
+    color: white !important;
     border: none;
     font-weight: bold;
     transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
 }
-.btn-pastel-blue:hover { background-color: #6daae0; color: white; }
-
-/* Card và Bảng */
+.btn {
+    background: linear-gradient(135deg, #cfe8ff, #6ec6ff);
+}
+.btn:hover {
+    background: linear-gradient(135deg, #6ec6ff, #cfe8ff);
+}
+.btn-pastel-blue:hover,
+a.btn-pastel-blue:hover {
+    background: linear-gradient(135deg, #6ec6ff, #cfe8ff);
+    color: white !important;
+    transform: translateY(-2px);
+}
 .cart-card {
     background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    padding: 20px;
-    border: 1px solid #eef4fa;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 25px;
+    border: 1px solid #e1efff;
 }
-.cart-table th { background-color: #f1f7fc; color: #555; font-weight: 600; border-bottom: 2px solid #d6e8f9; }
-.cart-table td { vertical-align: middle; border-bottom: 1px solid #f1f7fc; }
-.item-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #eee; }
 
-/* Tùy chỉnh input số lượng */
-.qty-input { width: 50px; text-align: center; border: 1px solid #ddd; border-radius: 4px; }
+.cart-table th {
+    background-color: #f0f8ff;
+    color: #333;
+    font-weight: 600;
+    border-bottom: 2px solid #cfe8ff;
+    text-align: center;
+}
+
+.cart-table td {
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f8ff;
+    text-align: center;
+}
+
+.item-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+/* ===== GIAO DIỆN BOX SỐ LƯỢNG ===== */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.qty-box {
+    display: inline-flex;
+    align-items: center;
+    border: 2px solid #cfe8ff;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    margin: 0 auto;
+}
+
+.qty-btn {
+    background: #f0f8ff;
+    border: none;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #4a90e2;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.qty-btn:hover {
+    background: #cfe8ff;
+    color: #fff;
+}
+
+.qty-input {
+    width: 45px;
+    height: 32px;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    outline: none;
+    border-left: 2px solid #cfe8ff;
+    border-right: 2px solid #cfe8ff;
+    pointer-events: none;
+}
+
+/* ===== GIAO DIỆN MÃ GIẢM GIÁ (VOUCHER) CHUẨN FLAT DESIGN ===== */
+.voucher-list::-webkit-scrollbar { width: 6px; }
+.voucher-list::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
+
+.voucher-card {
+    display: flex;
+    border: 1px solid #e1efff;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    cursor: pointer;
+    position: relative;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    transition: 0.2s;
+}
+
+.voucher-card:hover { border-color: #4a90e2; }
+
+.voucher-radio { display: none; }
+
+.vc-left {
+    width: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 15px;
+}
+.vc-left.bg-blue { background-color: #5da2f0; }
+.vc-left.bg-orange { background-color: #ff9b71; }
+
+.vc-right {
+    flex: 1;
+    padding: 15px 45px 15px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.vc-title { margin: 0 0 5px; font-size: 16px; color: #222; font-weight: bold; }
+.vc-desc { margin: 0; font-size: 13px; color: #777; }
+
+.custom-radio {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background: white;
+    transition: 0.2s;
+}
+
+.voucher-radio:checked + .vc-left + .vc-right .custom-radio {
+    border-color: #4a90e2;
+}
+.voucher-radio:checked + .vc-left + .vc-right .custom-radio::after {
+    content: '';
+    position: absolute;
+    width: 12px; height: 12px;
+    background: #4a90e2;
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}

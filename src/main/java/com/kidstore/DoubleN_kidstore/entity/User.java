@@ -14,6 +14,12 @@ public class User {
     private String password;
     private String email; // Đã thêm email để khớp với form Đăng ký
     private String role;
+    private String fullname;
+    private String dob;     // Ngày sinh
+    private String gender;  // Giới tính
+    private String phone;   // Số điện thoại
+    private String address; // Địa chỉ đầy đủ
+    private String usedVouchers = "";
 
     // ===== GETTER / SETTER =====
     public Integer getId() {
@@ -55,4 +61,22 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public String getFullname() { return fullname; }
+    public void setFullname(String fullname) { this.fullname = fullname; }
+
+    public String getDob() { return dob; }
+    public void setDob(String dob) { this.dob = dob; }
+
+    public String getGender() { return gender; }
+    public void setGender(String gender) { this.gender = gender; }
+
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+
+    public String getUsedVouchers() { return usedVouchers; }
+    public void setUsedVouchers(String usedVouchers) { this.usedVouchers = usedVouchers; }
 }

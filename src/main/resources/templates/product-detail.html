@@ -23,47 +23,73 @@
 
     <nav class="menu">
         <div class="menu-item">
-            <a href="#">Bé gái</a>
+            <a href="/collection?gender=girl">Bé gái</a>
             <div class="menu-dropdown">
                 <div class="mega-col">
                     <b>Đầm váy</b>
-                    <ul><li>Tất cả đầm váy</li><li>Đầm công chúa</li><li>Đầm ngắn tay</li><li>Đầm dài tay</li><li>Chân váy</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=dress" style="color: inherit; text-decoration: none;">Tất cả đầm váy</a></li>
+                        <li><a href="/collection?gender=girl&category=dress" style="color: inherit; text-decoration: none;">Đầm công chúa</a></li>
+                        <li><a href="/collection?gender=girl&category=dress" style="color: inherit; text-decoration: none;">Đầm ngắn/dài tay</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
                     <b>Áo</b>
-                    <ul><li>Tất cả áo</li><li>Áo thun</li><li>Áo dài tay</li><li>Áo khoác</li><li>Áo nỉ</li><li>Áo unisex</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=shirt" style="color: inherit; text-decoration: none;">Tất cả áo</a></li>
+                        <li><a href="/collection?gender=girl&category=shirt" style="color: inherit; text-decoration: none;">Áo thun</a></li>
+                        <li><a href="/collection?gender=girl&category=jacket" style="color: inherit; text-decoration: none;">Áo khoác</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
-                    <b>Quần</b>
-                    <ul><li>Tất cả quần</li><li>Quần short</li><li>Quần dài</li></ul>
+                    <b>Quần & Đồ bộ</b>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=pants" style="color: inherit; text-decoration: none;">Tất cả quần</a></li>
+                        <li><a href="/collection?gender=girl&category=pants" style="color: inherit; text-decoration: none;">Quần short / dài</a></li>
+                        <li><a href="/collection?gender=girl&category=set" style="color: inherit; text-decoration: none;">Đồ bộ (Set)</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <div class="menu-item">
-            <a href="#">Bé trai</a>
+            <a href="/collection?gender=boy">Bé trai</a>
             <div class="menu-dropdown">
                 <div class="mega-col">
                     <b>Áo</b>
-                    <ul><li>Tất cả áo</li><li>Áo thun ngắn tay</li><li>Áo dài tay</li><li>Áo khoác</li><li>Áo nỉ</li><li>Áo unisex</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=shirt" style="color: inherit; text-decoration: none;">Tất cả áo</a></li>
+                        <li><a href="/collection?gender=boy&category=shirt" style="color: inherit; text-decoration: none;">Áo thun</a></li>
+                        <li><a href="/collection?gender=boy&category=jacket" style="color: inherit; text-decoration: none;">Áo khoác</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
-                    <b>Quần</b>
-                    <ul><li>Tất cả quần</li><li>Quần short</li><li>Quần dài</li></ul>
+                    <b>Quần & Đồ bộ</b>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=pants" style="color: inherit; text-decoration: none;">Tất cả quần</a></li>
+                        <li><a href="/collection?gender=boy&category=pants" style="color: inherit; text-decoration: none;">Quần short / dài</a></li>
+                        <li><a href="/collection?gender=boy&category=set" style="color: inherit; text-decoration: none;">Đồ bộ (Set)</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <div class="menu-item">
-            <a href="#">Giày dép</a>
+            <a href="/collection?category=shoes">Giày dép</a>
             <div class="menu-dropdown">
                 <div class="mega-col">
                     <b>Bé gái</b>
-                    <ul><li>Giày cúp bê</li><li>Sandal</li><li>Sneaker</li><li>Dép</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=shoes" style="color: inherit; text-decoration: none;">Tất cả giày dép nữ</a></li>
+                        <li><a href="/collection?gender=girl&category=shoes" style="color: inherit; text-decoration: none;">Giày búp bê / Sandal</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
                     <b>Bé trai</b>
-                    <ul><li>Sandal</li><li>Sneaker</li><li>Dép</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=shoes" style="color: inherit; text-decoration: none;">Tất cả giày dép nam</a></li>
+                        <li><a href="/collection?gender=boy&category=shoes" style="color: inherit; text-decoration: none;">Sneaker / Dép</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -154,7 +180,7 @@
                     <span class="text-muted ms-2">(15 Đánh giá) | Đã bán: 102</span>
                 </div>
 
-                <p class="text-muted mb-2">Mã sản phẩm: <span class="fw-bold" th:text="${product.id}">123</span> | Danh mục: <span class="fw-bold" th:text="${product.category != null ? product.category.name : 'Thời trang'}">Thời trang</span></p>
+                <p class="text-muted mb-2">Mã sản phẩm: <span class="fw-bold" th:text="${product.id}">123</span> | Danh mục: <span class="fw-bold" th:text="${product.category != null ? product.category : 'Thời trang'}">Thời trang</span></p>
 
                 <div class="price-box">
                     <p class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">199,000 ₫</p>
@@ -312,6 +338,34 @@
 <button id="scrollTopBtn">↑</button>
 
 <footer class="footer">
+    <div class="subscribe">
+        <h4>Đăng ký nhận tin</h4>
+        <h5>Đăng ký ngay và là người đầu tiên nắm được thông tin khi nhà BabyHome có bộ sưu tập mới, khuyến mãi mới, và các sự kiện sắp diễn ra</h5>
+        <div class="form-sub">
+            <input type="email" placeholder="Nhập email">
+            <button>Đăng ký</button>
+        </div>
+    </div>
+    <div class="footer-content">
+        <div>
+            <h4>Về BabyHome</h4>
+            <a href="#">Tin tức nhà BabyHome</a>
+            <a href="#">Tuyển dụng BabyHome</a>
+        </div>
+        <div>
+            <h4>Hỗ trợ</h4>
+            <a href="#">Chính sách đổi trả</a>
+            <a href="#">Hướng dẫn chọn size</a>
+            <a href="#">Hướng dẫn giặt quần áo</a>
+            <a href="#">Tra cứu đơn hàng</a>
+            <a href="#">Giao hàng & phí giao hàng</a>
+        </div>
+        <div>
+            <h4>Kết nối</h4>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+    </div>
 </footer>
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 99999; margin-top: 60px;">
     <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">

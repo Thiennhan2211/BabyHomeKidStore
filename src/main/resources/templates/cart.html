@@ -5,22 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styleindex.css">
+
+    <link rel="stylesheet" href="/css/cart.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Giao diện giỏ hàng Pastel Blue */
-        body { background-color: #f5f9ff; }
-        .cart-container { margin-top: 40px; margin-bottom: 60px; }
-        .bg-pastel-blue { background-color: #cfe8ff !important; }
-        .text-pastel-blue { color: #4a90e2 !important; }
-        .btn-pastel-blue { background-color: #4a90e2; color: white; border: none; font-weight: bold; transition: 0.3s; }
-        .btn-pastel-blue:hover { background-color: #357abd; color: white; transform: translateY(-2px); }
-        .cart-card { background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 25px; border: 1px solid #e1efff; }
-        .cart-table th { background-color: #f0f8ff; color: #333; font-weight: 600; border-bottom: 2px solid #cfe8ff; text-align: center; }
-        .cart-table td { vertical-align: middle; border-bottom: 1px solid #f0f8ff; text-align: center; }
-        .item-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #eee; }
-        .qty-input { width: 60px; text-align: center; border: 1px solid #ddd; border-radius: 4px; padding: 5px; }
-    </style>
 </head>
 <body>
 
@@ -31,47 +20,73 @@
 
     <nav class="menu">
         <div class="menu-item">
-            <a href="#">Bé gái</a>
+            <a href="/collection?gender=girl">Bé gái</a>
             <div class="menu-dropdown">
                 <div class="mega-col">
                     <b>Đầm váy</b>
-                    <ul><li>Tất cả đầm váy</li><li>Đầm công chúa</li><li>Đầm ngắn tay</li><li>Đầm dài tay</li><li>Chân váy</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=dress" style="color: inherit; text-decoration: none;">Tất cả đầm váy</a></li>
+                        <li><a href="/collection?gender=girl&category=dress" style="color: inherit; text-decoration: none;">Đầm công chúa</a></li>
+                        <li><a href="/collection?gender=girl&category=dress" style="color: inherit; text-decoration: none;">Đầm ngắn/dài tay</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
                     <b>Áo</b>
-                    <ul><li>Tất cả áo</li><li>Áo thun</li><li>Áo dài tay</li><li>Áo khoác</li><li>Áo nỉ</li><li>Áo unisex</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=shirt" style="color: inherit; text-decoration: none;">Tất cả áo</a></li>
+                        <li><a href="/collection?gender=girl&category=shirt" style="color: inherit; text-decoration: none;">Áo thun</a></li>
+                        <li><a href="/collection?gender=girl&category=jacket" style="color: inherit; text-decoration: none;">Áo khoác</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
-                    <b>Quần</b>
-                    <ul><li>Tất cả quần</li><li>Quần short</li><li>Quần dài</li></ul>
+                    <b>Quần & Đồ bộ</b>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=pants" style="color: inherit; text-decoration: none;">Tất cả quần</a></li>
+                        <li><a href="/collection?gender=girl&category=pants" style="color: inherit; text-decoration: none;">Quần short / dài</a></li>
+                        <li><a href="/collection?gender=girl&category=set" style="color: inherit; text-decoration: none;">Đồ bộ (Set)</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <div class="menu-item">
-            <a href="#">Bé trai</a>
+            <a href="/collection?gender=boy">Bé trai</a>
             <div class="menu-dropdown">
                 <div class="mega-col">
                     <b>Áo</b>
-                    <ul><li>Tất cả áo</li><li>Áo thun ngắn tay</li><li>Áo dài tay</li><li>Áo khoác</li><li>Áo nỉ</li><li>Áo unisex</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=shirt" style="color: inherit; text-decoration: none;">Tất cả áo</a></li>
+                        <li><a href="/collection?gender=boy&category=shirt" style="color: inherit; text-decoration: none;">Áo thun</a></li>
+                        <li><a href="/collection?gender=boy&category=jacket" style="color: inherit; text-decoration: none;">Áo khoác</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
-                    <b>Quần</b>
-                    <ul><li>Tất cả quần</li><li>Quần short</li><li>Quần dài</li></ul>
+                    <b>Quần & Đồ bộ</b>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=pants" style="color: inherit; text-decoration: none;">Tất cả quần</a></li>
+                        <li><a href="/collection?gender=boy&category=pants" style="color: inherit; text-decoration: none;">Quần short / dài</a></li>
+                        <li><a href="/collection?gender=boy&category=set" style="color: inherit; text-decoration: none;">Đồ bộ (Set)</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <div class="menu-item">
-            <a href="#">Giày dép</a>
+            <a href="/collection?category=shoes">Giày dép</a>
             <div class="menu-dropdown">
                 <div class="mega-col">
                     <b>Bé gái</b>
-                    <ul><li>Giày cúp bê</li><li>Sandal</li><li>Sneaker</li><li>Dép</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=shoes" style="color: inherit; text-decoration: none;">Tất cả giày dép nữ</a></li>
+                        <li><a href="/collection?gender=girl&category=shoes" style="color: inherit; text-decoration: none;">Giày búp bê / Sandal</a></li>
+                    </ul>
                 </div>
                 <div class="mega-col">
                     <b>Bé trai</b>
-                    <ul><li>Sandal</li><li>Sneaker</li><li>Dép</li></ul>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=shoes" style="color: inherit; text-decoration: none;">Tất cả giày dép nam</a></li>
+                        <li><a href="/collection?gender=boy&category=shoes" style="color: inherit; text-decoration: none;">Sneaker / Dép</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -168,14 +183,36 @@
                                 <img th:src="@{/images/products/{img}(img=${item.image})}" class="item-img me-3">
                                 <div>
                                     <h6 class="mb-1 fw-bold" th:text="${item.name}"></h6>
-                                    <span class="badge bg-light text-dark border" th:text="'Màu: ' + ${item.color} + ' | Size: ' + ${item.size}"></span>
+                                    <span class="badge bg-light text-dark border"
+                                          th:with="colorArr=${#strings.arraySplit(item.color, ':')}"
+                                          th:text="'Màu: ' + ${#arrays.length(colorArr) > 1 ? colorArr[1] : colorArr[0]} + ' | Size: ' + ${item.size}">
+                                    </span>
                                 </div>
                             </div>
                         </td>
                         <td class="fw-bold" th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
-                        <td><input type="number" class="qty-input" th:value="${item.quantity}" min="1"></td>
+                        <td>
+                            <div class="qty-box">
+                                <button type="button" class="qty-btn"
+                                        th:attr="data-id=${item.productId}, data-color=${item.color}, data-size=${item.size}"
+                                        onclick="updateCartQty(this, -1)">-</button>
+
+                                <input type="number" class="qty-input" th:value="${item.quantity}" readonly>
+
+                                <button type="button" class="qty-btn"
+                                        th:attr="data-id=${item.productId}, data-color=${item.color}, data-size=${item.size}"
+                                        onclick="updateCartQty(this, 1)">+</button>
+                            </div>
+                        </td>
                         <td class="fw-bold text-danger" th:text="${#numbers.formatDecimal(item.price * item.quantity, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
-                        <td><a href="#" class="text-danger fs-5"><i class="fa fa-trash-alt"></i></a></td>
+                        <td>
+                            <a href="javascript:void(0);"
+                               class="text-danger fs-5"
+                               th:attr="data-id=${item.productId}, data-color=${item.color}, data-size=${item.size}"
+                               onclick="removeFromCart(this)">
+                                <i class="fa fa-trash-alt"></i>
+                            </a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -183,42 +220,73 @@
         </div>
 
         <div class="col-md-4">
-            <div class="cart-card mb-4 bg-pastel-blue" style="border: none;">
-                <h6 class="fw-bold mb-3"><i class="fa fa-ticket-alt text-primary me-2"></i> Mã giảm giá</h6>
-                <div class="d-flex">
-                    <input type="text" class="form-control me-2 border-0" placeholder="Nhập mã...">
-                    <button class="btn btn-primary fw-bold" style="white-space: nowrap;">Áp dụng</button>
+
+            <input type="hidden" id="rawTotalPrice" th:value="${totalPrice != null ? totalPrice : 0}">
+
+            <div class="cart-card mb-4" style="padding: 20px;">
+                <h5 class="fw-bold mb-3" style="font-size: 20px;">Mã Giảm Giá</h5>
+
+                <div class="voucher-list" style="max-height: 260px; overflow-y: auto; margin-bottom: 15px; padding-right: 5px;">
+
+                    <label class="voucher-card" th:each="v : ${vouchers}"
+                           th:if="${user == null || user.usedVouchers == null || !#strings.contains(user.usedVouchers, v.code)}">
+
+                        <input type="radio" name="selectedVoucher"
+                               th:value="${v.code}"
+                               th:attr="data-discount=${v.discount}, data-min=${v.minAmount}"
+                               class="voucher-radio">
+
+                        <div th:class="${v.color == 'blue'} ? 'vc-left bg-blue' : 'vc-left bg-orange'">
+                            <i th:class="${v.color == 'blue'} ? 'fa fa-ticket-alt' : 'fa fa-truck-fast'" style="font-size: 24px; margin-bottom: 5px;"></i>
+                            <span style="font-size: 12px; font-weight: bold;" th:text="${v.code}">CODE</span>
+                        </div>
+
+                        <div class="vc-right">
+                            <div class="vc-title" th:text="${v.title}">Tiêu đề</div>
+                            <div class="vc-desc" th:text="${v.description}">Mô tả</div>
+                            <span class="custom-radio"></span>
+                        </div>
+                    </label>
+
                 </div>
+
+                <div class="d-flex gap-2">
+                    <input type="text" class="form-control mb-0 bg-light" placeholder="Nhập mã giảm giá" style="border-radius: 20px; border: 1px solid #eee;">
+                    <button type="button" class="btn text-white px-4" style="background: #a5a5a5; border-radius: 20px; font-weight: bold; border: none;">Áp dụng</button>
+                </div>
+
+                <div id="voucherErrorMsg" class="text-danger mt-2" style="font-size: 13px; font-weight: bold; display: none;">Coupon không hợp lệ hoặc chưa đạt giá trị tối thiểu!</div>
+                <div id="voucherSuccessMsg" class="text-success mt-2" style="font-size: 13px; font-weight: bold; display: none;">Áp dụng mã thành công!</div>
             </div>
 
             <div class="cart-card">
                 <h5 class="fw-bold border-bottom pb-3 mb-3 text-uppercase fs-6">Thông tin thanh toán</h5>
+
                 <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Tạm tính:</span>
                     <span class="fw-bold" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</span>
                 </div>
-                <div class="d-flex justify-content-between mb-3 border-bottom pb-3">
+
+                <div class="d-flex justify-content-between mb-3" id="shippingRow">
                     <span class="text-muted">Phí giao hàng:</span>
                     <span class="fw-bold text-success">Miễn phí</span>
                 </div>
-                <div class="d-flex justify-content-between mb-4">
+
+                <div class="d-flex justify-content-between mb-3 pb-3 border-bottom" id="discountRow" style="display: none;">
+                    <span class="text-muted">Mã <span id="appliedVoucherName" style="color: #4a90e2; font-weight: bold; margin-left: 5px;"></span>:</span>
+                    <span class="fw-bold text-danger" id="discountAmountText">-0đ</span>
+                </div>
+
+                <div id="defaultBorder" class="border-bottom mb-3 pb-2"></div>
+
+                <div class="d-flex justify-content-between mb-4 mt-2">
                     <span class="fw-bold fs-5">Tổng cộng:</span>
-                    <span class="fw-bold fs-4 text-danger" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</span>
+                    <span class="fw-bold fs-4 text-danger" id="finalTotalText" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</span>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label text-muted fw-bold" style="font-size: 13px;">GHI CHÚ ĐƠN HÀNG:</label>
-                    <textarea class="form-control bg-light border-0" rows="2" placeholder="VD: Giao giờ hành chính..."></textarea>
-                </div>
-
-                <div class="form-check mb-4 bg-light p-2 rounded">
-                    <input class="form-check-input ms-1" type="checkbox" id="invoiceCheck">
-                    <label class="form-check-label ms-2 fw-bold text-muted" for="invoiceCheck" style="font-size: 13px;">
-                        YÊU CẦU XUẤT HÓA ĐƠN CÔNG TY
-                    </label>
-                </div>
-
-                <button class="btn btn-pastel-blue w-100 py-3 fs-5 text-uppercase shadow-sm">Thanh Toán Ngay <i class="fa fa-arrow-right ms-2"></i></button>
+                <a href="/checkout" class="btn btn-pastel-blue w-100 py-3 fs-5 text-uppercase shadow-sm text-center d-block" style="text-decoration: none;">
+                    Thanh Toán Ngay <i class="fa fa-arrow-right ms-2"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -260,5 +328,132 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Hàm xóa sản phẩm
+    function removeFromCart(element) {
+        const productId = element.getAttribute('data-id');
+        const colorAttr = element.getAttribute('data-color');
+        const sizeAttr = element.getAttribute('data-size');
+
+        // Báo lỗi ngay nếu dữ liệu từ thẻ HTML bị rỗng
+        if (!productId || !colorAttr || !sizeAttr) {
+            alert("Lỗi giao diện: Dữ liệu sản phẩm bị thiếu! ID=" + productId + " Color=" + colorAttr + " Size=" + sizeAttr);
+            return;
+        }
+
+        const color = encodeURIComponent(colorAttr);
+        const size = encodeURIComponent(sizeAttr);
+
+        if(confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+            fetch(`/api/cart/remove?productId=${productId}&color=${color}&size=${size}`, {
+                method: 'POST'
+            })
+                .then(res => {
+                    if(res.ok) {
+                        window.location.reload();
+                    } else {
+                        alert("Lỗi máy chủ! Vui lòng kiểm tra lại CartController.");
+                    }
+                })
+                .catch(err => {
+                    alert("Lỗi mất mạng hoặc máy chủ sập!");
+                });
+        }
+    }
+    // Hàm Tăng/Giảm số lượng
+    function updateCartQty(element, change) {
+        const productId = element.getAttribute('data-id');
+        const color = encodeURIComponent(element.getAttribute('data-color'));
+        const size = encodeURIComponent(element.getAttribute('data-size'));
+
+        // Lấy ô input nằm cùng một hàng với nút vừa bấm
+        const inputEl = element.parentElement.querySelector('.qty-input');
+        let currentQty = parseInt(inputEl.value);
+        let newQty = currentQty + change;
+
+        // Nếu bấm giảm xuống 0, thì gọi hàm hỏi xóa sản phẩm luôn cho tiện
+        if (newQty < 1) {
+            removeFromCart(element);
+            return;
+        }
+
+        // Nếu hợp lệ, gửi API đi cập nhật
+        fetch(`/api/cart/update?productId=${productId}&color=${color}&size=${size}&qty=${newQty}`, {
+            method: 'POST'
+        })
+            .then(res => {
+                if(res.ok) {
+                    // Tải lại trang để giá tiền từng món và tổng tiền cập nhật lại chính xác 100%
+                    window.location.reload();
+                } else {
+                    alert("Lỗi máy chủ! Không thể cập nhật số lượng.");
+                }
+            });
+    }
+    // ===== XỬ LÝ CLICK CHỌN VOUCHER, KIỂM TRA ĐIỀU KIỆN & TRỪ TIỀN =====
+    document.addEventListener("DOMContentLoaded", function() {
+        // Lấy giá trị tổng tiền từ thẻ input ẩn (an toàn tuyệt đối không bị lỗi 0đ)
+        const rawTotalInput = document.getElementById('rawTotalPrice');
+        const baseTotalPrice = parseInt(rawTotalInput.value) || 0;
+
+        const voucherRadios = document.querySelectorAll('input[name="selectedVoucher"]');
+        const discountRow = document.getElementById('discountRow');
+        const defaultBorder = document.getElementById('defaultBorder');
+        const voucherNameEl = document.getElementById('appliedVoucherName');
+        const discountAmountText = document.getElementById('discountAmountText');
+        const finalTotalText = document.getElementById('finalTotalText');
+
+        const errorMsg = document.getElementById('voucherErrorMsg');
+        const successMsg = document.getElementById('voucherSuccessMsg');
+
+        // Khởi tạo hiển thị tổng tiền ban đầu cho chắc chắn
+        finalTotalText.textContent = baseTotalPrice.toLocaleString('vi-VN') + 'đ';
+
+        voucherRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    const discount = parseInt(this.getAttribute('data-discount')) || 0;
+                    const minOrder = parseInt(this.getAttribute('data-min')) || 0;
+                    const voucherName = this.value;
+
+                    // KIỂM TRA ĐIỀU KIỆN TỐI THIỂU
+                    if (baseTotalPrice < minOrder) {
+                        // Thất bại: Hiện lỗi, xóa thành công, trả lại tiền gốc
+                        errorMsg.style.display = 'block';
+                        successMsg.style.display = 'none';
+
+                        discountRow.style.display = 'none';
+                        defaultBorder.style.display = 'block';
+                        finalTotalText.textContent = baseTotalPrice.toLocaleString('vi-VN') + 'đ';
+
+                    } else {
+                        // Thành công: Hiện xanh, xóa lỗi, bắt đầu trừ tiền
+                        errorMsg.style.display = 'none';
+                        successMsg.style.display = 'block';
+                        const btnCheckout = document.querySelector('a[href^="/checkout"]');
+                        if(btnCheckout) btnCheckout.href = "/checkout?voucher=" + voucherName;
+                        // -------------------------------
+
+                        discountRow.style.display = 'flex';
+                        defaultBorder.style.display = 'none';
+
+                        voucherNameEl.textContent = '[' + voucherName + ']';
+
+                        if (discount > 0) {
+                            discountAmountText.textContent = '-' + discount.toLocaleString('vi-VN') + 'đ';
+                        } else {
+                            discountAmountText.textContent = 'Miễn phí';
+                        }
+
+                        let finalTotal = baseTotalPrice - discount;
+                        if (finalTotal < 0) finalTotal = 0;
+
+                        finalTotalText.textContent = finalTotal.toLocaleString('vi-VN') + 'đ';
+                    }
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

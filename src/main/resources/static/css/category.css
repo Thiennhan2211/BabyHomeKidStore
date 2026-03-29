@@ -1,158 +1,286 @@
+/* ===== TỔNG THỂ ===== */
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, white, #d6f0ff);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5faff 0%, #d6f0ff 100%);
+    color: #333;
+    min-height: 100vh;
 }
 
-/* ===== HEADER ===== */
+/* ===== HEADER & NAV ===== */
 .header {
     background: #cfe8ff;
     color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 30px;
+    padding: 10px 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-/* LOGO */
-.logo {
-    font-size: 20px;
-    font-weight: bold;
-}
-.logo img{
-    height:50px;
+.logo img {
+    height: 50px;
+    border-radius: 8px;
+    transition: 0.3s;
 }
 
-/* MENU */
 .nav {
     display: flex;
-    gap: 20px;
+    gap: 25px;
 }
 
 .nav a {
     position: relative;
-    color: black;
+    color: #444;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 15px;
     transition: 0.3s;
 }
 
-/* line chạy từ giữa ra */
+/* Hiệu ứng Hover & Active gộp chung để đồng bộ */
+.nav a:hover,
+.nav a.active {
+    color: #4a90e2;
+}
+
+/* Line chạy từ giữa ra - Luôn hiển thị 100% nếu là .active */
 .nav a::after {
     content: "";
     position: absolute;
     left: 50%;
-    bottom: -5px;
+    bottom: -2px; /* Chỉnh lại một chút cho sát chữ */
     width: 0;
-    height: 2px;
-    background: black;
-    transition: 0.3s;
+    height: 3px;
+    background: #4a90e2;
+    transition: 0.3s ease;
     transform: translateX(-50%);
+    border-radius: 10px;
 }
 
-.nav a:hover::after {
+.nav a:hover::after,
+.nav a.active::after {
     width: 100%;
+}
+
+/* Thêm hiệu ứng bóng đổ nhẹ cho chữ khi active để trông "xịn" hơn */
+.nav a.active {
+    text-shadow: 0 0 10px rgba(74, 144, 226, 0.2);
+    font-weight: 700;
 }
 
 /* RIGHT SIDE */
 .right-header {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
 }
 
 .profile {
     display: flex;
     align-items: center;
-    gap: 8px;
-    color: black;
+    gap: 10px;
+    color: #2c3e50;
+    font-weight: 500;
 }
 
 .logout {
     background: white;
-    color: #4a90e2;
-    padding: 6px 12px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-}
-/* ===== TITLE ===== */
-.main-title {
-    text-align: center;
-    color: #4a90e2;
-    margin-top: 20px;
-}
-
-.title {
-    text-align: center;
-    color: #4a90e2;
-    margin-bottom: 10px;
-}
-/* ===== CONTENT ===== */
-.container {
-    display: flex;
-    padding: 20px;
-}
-
-.left {
-    width: 50%;
-}
-
-.right {
-    width: 50%;
-    padding-left: 20px;
-}
-
-/* TABLE */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-}
-
-th, td {
-    padding: 10px;
-    text-align: center;
-}
-
-th {
-    background: #4a90e2;
-    color: white;
-}
-
-/* FORM */
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-
-/* BUTTON */
-button {
-    padding: 10px 15px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 6px;
-    background: #4a90e2;
-    color: white;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #357abd;
-}
-.logout {
-    background: white;
-    color: #4a90e2;
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: none;
+    color: #d0021b;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid #d0021b;
     cursor: pointer;
     font-weight: bold;
+    transition: 0.3s;
 }
 
 .logout:hover {
-    background: #e6f0ff;
+    background: #fff5f5;
+    transform: scale(1.05);
+}
+
+/* ===== TIÊU ĐỀ ===== */
+.main-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 30px;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.title {
+    text-align: left;
+    color: #4a90e2;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    border-left: 5px solid #4a90e2;
+    padding-left: 15px;
+}
+
+/* ===== CONTENT & CONTAINER ===== */
+.container {
+    display: flex;
+    padding: 30px 5%;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Bo góc và đổ bóng cho 2 khối trái phải */
+.left, .right {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.left:hover, .right:hover {
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.left {
+    flex: 1.2; /* Danh sách rộng hơn một chút */
+}
+
+.right {
+    flex: 0.8;
+    height: fit-content;
+    position: sticky;
+    top: 90px; /* Ghim form lại khi cuộn trang */
+}
+
+/* ===== BẢNG DANH SÁCH ===== */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 10px;
+    border-radius: 12px;
+    overflow: hidden; /* Để bo góc table */
+    border: 1px solid #f0f0f0;
+}
+
+th {
+    background: #f8fbff;
+    color: #4a90e2;
+    padding: 18px 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 13px;
+    border-bottom: 2px solid #cfe8ff;
+}
+
+td {
+    padding: 15px 10px;
+    border-bottom: 1px solid #f1f1f1;
+    color: #555;
+    font-size: 14px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background-color: #f9fcff;
+    color: #4a90e2;
+    font-weight: 500;
+}
+
+/* ===== FORM NHẬP LIỆU ===== */
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0 18px 0;
+    border-radius: 10px;
+    border: 1.5px solid #e0e6ed;
+    background: #fcfdfe;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #4a90e2;
+    background: white;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1);
+}
+
+label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #34495e;
+    margin-left: 2px;
+}
+
+/* ===== NÚT BẤM ===== */
+button {
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-right: 8px; /* Khoảng cách mặc định giữa các nút */
+    margin-top: 15px; /* Cách xa form phía trên một chút */
+    display: inline-block;
+
+    /* Màu Gradient mới theo yêu cầu */
+    background: linear-gradient(135deg, #cfe8ff, #6ec6ff);
+    color: #003a70; /* Chữ màu xanh đen đậm để nổi bật trên nền sáng */
+}
+
+/* Đảo ngược Gradient khi Hover */
+button:hover {
+    background: linear-gradient(135deg, #6ec6ff, #cfe8ff);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(110, 198, 255, 0.4); /* Đổ bóng màu xanh */
+}
+
+button:active {
+    transform: translateY(0) !important; /* Bấm vào sẽ lún xuống */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+}
+
+/* ===== BẢO VỆ NÚT LOGOUT KHÔNG BỊ ẢNH HƯỞNG ===== */
+.logout {
+    background: white !important;
+    color: #d0021b !important;
+    border: 1px solid #d0021b !important;
+    margin: 0 !important; /* Xoá margin-top của button chung để ko bị lệch form */
+    box-shadow: none !important;
+}
+.logout:hover {
+    background: #fff5f5 !important;
+    transform: scale(1.05) !important;
+}
+
+/* Fix khoảng cách cho nhóm nút trong Modal (Trang Product) */
+.btn-group button {
+    margin-right: 15px;
+    margin-top: 0;
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
+    }
+    .left, .right {
+        width: 100%;
+    }
+    .right {
+        padding-left: 0;
+        margin-top: 20px;
+    }
 }

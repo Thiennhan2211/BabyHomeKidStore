@@ -1,0 +1,244 @@
+/* ===== TỔNG THỂ ĐỒNG BỘ ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5faff 0%, #d6f0ff 100%);
+    color: #333;
+    min-height: 100vh;
+}
+
+/* ===== HEADER & NAV (Giữ nguyên cấu trúc đồng bộ) ===== */
+.header {
+    background: #cfe8ff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo img { height: 50px; border-radius: 8px; }
+
+.nav { display: flex; gap: 25px; }
+
+.nav a {
+    position: relative;
+    color: #444;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: 0.3s;
+    padding: 5px 0;
+}
+
+.nav a:hover, .nav a.active { color: #4a90e2; }
+
+.nav a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -2px;
+    width: 0;
+    height: 3px;
+    background: #4a90e2;
+    transition: 0.3s ease;
+    transform: translateX(-50%);
+    border-radius: 10px;
+}
+
+.nav a:hover::after, .nav a.active::after { width: 100%; }
+
+.nav a.active { font-weight: 700; text-shadow: 0 0 10px rgba(74, 144, 226, 0.1); }
+
+.right-header { display: flex; align-items: center; gap: 20px; }
+
+.logout {
+    background: white; color: #d0021b;
+    padding: 8px 18px; border-radius: 20px;
+    border: 1px solid #d0021b; font-weight: bold; transition: 0.3s;
+}
+.logout:hover { background: #fff5f5; transform: scale(1.05); }
+
+/* ===== DASHBOARD CONTENT ===== */
+.dashboard-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 30px auto;
+}
+
+.title {
+    color: #2c3e50;
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ===== BỘ LỌC (Utility Bar) ===== */
+.filter-bar {
+    background: white;
+    padding: 15px 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border: 1px solid rgba(74, 144, 226, 0.1);
+}
+
+.filter-bar span { font-weight: 600; color: #555; }
+
+.filter-bar input {
+    padding: 10px 15px;
+    border: 1.5px solid #e0e6ed;
+    border-radius: 10px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.filter-bar input:focus { border-color: #4a90e2; box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1); }
+
+.filter-bar button {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.filter-bar button:hover { background: #357abd; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3); }
+
+/* ===== 4 Ô THỐNG KÊ (Stats Cards) ===== */
+.stat-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.8);
+}
+
+.card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
+
+.card i {
+    font-size: 24px;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.card h3 { margin: 5px 0 0 0; font-size: 22px; font-weight: 800; color: #2c3e50; }
+.card p { margin: 0; font-size: 14px; font-weight: 600; }
+
+.bg-blue { background: #e3f2fd; color: #1e88e5; }
+.bg-green { background: #e8f5e9; color: #2e7d32; }
+.bg-orange { background: #fff3e0; color: #ef6c00; }
+.bg-purple { background: #f3e5f5; color: #7b1fa2; }
+
+/* ===== LAYOUT CHÍNH (2/3 và 1/3) ===== */
+.main-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.chart-box, .pending-box {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-box h4, .pending-box h4 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chart-wrapper { flex-grow: 1; min-height: 300px; width: 100%; }
+
+/* ===== DANH SÁCH ĐƠN CHỜ DUYỆT ===== */
+.pending-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f5f7f9;
+    transition: 0.2s;
+}
+
+.pending-item:last-child { border-bottom: none; }
+
+.pending-item strong { color: #4a90e2; font-size: 15px; }
+
+.pending-item a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #f0f7ff;
+    transition: 0.3s;
+}
+
+.pending-item a:hover { background: #4a90e2; color: white; }
+
+/* ===== TOP SẢN PHẨM BÁN CHẠY ===== */
+.best-seller-card {
+    flex-direction: column !important;
+    text-align: center;
+    padding: 20px !important;
+}
+
+.best-seller-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.best-seller-card p {
+    color: #2c3e50;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.best-seller-card span {
+    color: #d0021b;
+    font-weight: 800;
+    font-size: 16px;
+    margin-top: 5px;
+}

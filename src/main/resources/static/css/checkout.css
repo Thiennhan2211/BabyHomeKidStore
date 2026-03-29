@@ -1,0 +1,148 @@
+/* ===== GIAO DIỆN TRANG THANH TOÁN (CHECKOUT) ===== */
+body {
+    /* Đồng bộ nền gradient với trang Giỏ hàng */
+    background: linear-gradient(135deg, white, #d6f0ff);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Đưa logo ra góc trái và căn chỉnh lề */
+.checkout-header {
+    text-align: left;
+    padding: 15px 40px;
+    background:#cfe8ff;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e1efff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+
+.checkout-header img {
+    height: 50px;
+}
+
+/* Các thẻ trắng chứa nội dung (Card) */
+.c-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 1px solid #e1efff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.c-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #4a90e2; /* Đổi màu tiêu đề sang tông xanh */
+}
+
+/* Form nhập liệu */
+.form-control {
+    background-color: #fcfcfc;
+    border: 1px solid #cfe8ff; /* Viền xanh nhạt */
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 15px;
+    transition: 0.3s;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+    border-color: #4a90e2;
+    outline: none;
+}
+
+/* Khu vực hiển thị Tài khoản */
+.account-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border: 1px solid #cfe8ff;
+    border-radius: 8px;
+    background-color: #f9fbff;
+}
+
+.avatar-circle {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #cfe8ff, #6ec6ff); /* Màu avatar xanh */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Khối phương thức thanh toán */
+.payment-method {
+    border: 1px solid #cfe8ff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #fff;
+    transition: 0.3s;
+}
+
+.payment-method.active {
+    border: 2px solid #4a90e2;
+    background-color: #f0f8ff; /* Đổi màu nền khi được chọn */
+}
+
+.payment-method img {
+    width: 35px;
+}
+
+/* Giỏ hàng mini bên cột phải */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.cart-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    border: 1px solid #cfe8ff;
+    object-fit: cover;
+}
+
+.cart-item-info {
+    flex: 1;
+    margin-left: 15px;
+}
+
+/* Nút Đặt hàng bự - Đồng bộ 100% với nút bên cart.css */
+.btn-submit {
+    background: linear-gradient(135deg, #cfe8ff, #6ec6ff);
+    color: white !important;
+    border: none;
+    border-radius: 8px;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 16px;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(110, 198, 255, 0.3);
+}
+
+.btn-submit:hover {
+    background: linear-gradient(135deg, #6ec6ff, #cfe8ff);
+    transform: translateY(-2px);
+}
+.btn btn-dark px-4 {
+    background: linear-gradient(135deg, #cfe8ff, #6ec6ff);
+}
+.btn btn-dark px-4:hover {
+    background: linear-gradient(135deg, #6ec6ff, #cfe8ff);
+    transform: translateY(-2px);
+}

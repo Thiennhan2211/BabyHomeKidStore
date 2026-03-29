@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Customer Management</title>
+    <link rel="stylesheet" th:href="@{/css/customer.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="header">
+    <div class="logo"><img th:src="@{/images/logo.jpg}" alt="Logo"></div>
+    <div class="nav">
+        <a href="/admin/home">Home</a>
+        <a href="/admin/category">Category</a>
+        <a href="/admin/product">Product</a>
+        <a href="/admin/order">Order</a>
+        <a href="/admin/customer" class="active">Customer</a>
+        <a href="/admin/voucher">Voucher</a>
+    </div>
+    <div class="right-header">
+        <span>Hi <span th:text="${#authentication.name}">admin</span></span>
+        <form method="post" action="/logout" style="margin: 0;"><button type="submit" class="logout">Logout</button></form>
+    </div>
+</div>
+
+<h2 class="title">Customer Management</h2>
+
+<div class="container-full">
+    <table>
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Email / Phone</th>
+            <th>Total Orders</th>
+            <th>Total Spent</th>
+            <th>Rank</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${customers}" class="clickable-row" th:data-id="${c.user.id}"
+            th:attr="onclick=|showDetail('${c.user.id}', '${c.user.username}', '${c.user.fullname}', '${c.user.email}', '${c.user.phone}', '${c.user.address}', '${c.orderCount}', '${c.totalSpent}')|">
+            <td th:text="${c.user.username}" style="font-weight: bold; color: #4a90e2;"></td>
+            <td th:text="${c.user.fullname != null ? c.user.fullname : '---'}"></td>
+            <td>
+                <span th:text="${c.user.email}"></span><br>
+                <small th:text="${c.user.phone != null ? c.user.phone : 'N/A'}"></small>
+            </td>
+            <td th:text="${c.orderCount}">0</td>
+            <td th:text="${#numbers.formatDecimal(c.totalSpent, 0, 'COMMA', 0, 'POINT') + 'đ'}" style="font-weight: bold; color: #d0021b;"></td>
+            <td>
+                    <span th:class="'rank-badge ' + (${c.rank == 'NEW'} ? 'rank-new' : (${c.rank == 'VIP'} ? 'rank-vip' : 'rank-loyal'))"
+                          th:text="${c.rank}"></span>
+            </td>
+            <td><button class="action-btn-new" style="border:none; background:none; color:#4a90e2; cursor:pointer;"><i class="fa fa-search-plus"></i></button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="customerModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h3 style="color: #4a90e2; border-bottom: 2px solid #cfe8ff; padding-bottom: 10px;">
+            <i class="fa fa-user-circle"></i> Customer: <span id="m-user"></span>
+        </h3>
+
+        <div class="info-box">
+            <div>
+                <p><strong>Full Name:</strong> <span id="m-name"></span></p>
+                <p><strong>Email:</strong> <span id="m-email"></span></p>
+            </div>
+            <div>
+                <p><strong>Phone:</strong> <span id="m-phone"></span></p>
+                <p><strong>Address:</strong> <span id="m-address"></span></p>
+            </div>
+        </div>
+
+        <div class="history-title"><i class="fa fa-history"></i> Shopping History</div>
+        <table style="font-size: 14px;">
+            <thead>
+            <tr style="background: #f8f9fa;">
+                <th>ID</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody id="historyBody">
+            </tbody>
+        </table>
+
+        <div style="text-align: right; margin-top: 20px; font-size: 18px;">
+            Total Spent: <span id="m-total" style="color: #d0021b; font-weight: bold;">0đ</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function showDetail(id, user, name, email, phone, addr, count, spent) {
+        // 1. Fill thông tin cơ bản
+        document.getElementById('m-user').innerText = user;
+        document.getElementById('m-name').innerText = name !== 'null' ? name : '---';
+        document.getElementById('m-email').innerText = email !== 'null' ? email : '---';
+        document.getElementById('m-phone').innerText = phone !== 'null' ? phone : '---';
+        document.getElementById('m-address').innerText = addr !== 'null' ? addr : 'No address provided';
+        document.getElementById('m-total').innerText = Number(spent).toLocaleString('vi-VN') + "đ";
+
+        // 2. Fetch lịch sử mua hàng
+        try {
+            const res = await fetch('/admin/customer/orders/' + id);
+            const orders = await res.json();
+            const body = document.getElementById('historyBody');
+            body.innerHTML = '';
+
+            if (orders.length === 0) {
+                body.innerHTML = '<tr><td colspan="4">No shopping history</td></tr>';
+            } else {
+                orders.forEach(o => {
+                    const date = new Date(o.createDate).toLocaleDateString('vi-VN');
+                    body.innerHTML += `
+                        <tr>
+                            <td>#${o.id}</td>
+                            <td>${date}</td>
+                            <td style="color: #d0021b; font-weight: bold;">${o.totalAmount.toLocaleString('vi-VN')}đ</td>
+                            <td><span class="rank-badge ${o.status === 'APPROVED' ? 'rank-loyal' : 'rank-new'}">${o.status}</span></td>
+                        </tr>`;
+                });
+            }
+        } catch (e) { console.error(e); }
+
+        document.getElementById('customerModal').style.display = 'flex';
+    }
+
+    function closeModal() { document.getElementById('customerModal').style.display = 'none'; }
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('customerModal')) closeModal();
+    }
+</script>
+</body>
+</html>

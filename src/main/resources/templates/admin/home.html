@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/order.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="header">
+    <div class="logo">
+        <img th:src="@{/images/logo.jpg}" alt="Logo">
+    </div>
+
+    <div class="nav">
+        <a href="/admin/home" class="active">Home</a>
+        <a href="/admin/category">Category</a>
+        <a href="/admin/product">Product</a>
+        <a href="/admin/order">Order</a>
+        <a href="/admin/customer">Customer</a>
+        <a href="/admin/voucher">Voucher</a>
+    </div>
+
+    <div class="right-header">
+        <span>Hi <span th:text="${#authentication.name}"></span></span>
+        <form method="post" action="/logout" style="margin: 0;">
+            <button type="submit" class="logout">Logout</button>
+        </form>
+    </div>
+</div>
+
+<div class="dashboard-container">
+    <h2 class="title" style="text-align: left; margin-left: 0;">Hệ thống báo cáo</h2>
+
+    <form action="/admin/home" method="get" class="filter-bar">
+        <span>Xem báo cáo từ:</span>
+        <input type="month" name="start" th:value="${start}">
+        <span>đến</span>
+        <input type="month" name="end" th:value="${end}">
+        <button type="submit" style="background: #4a90e2; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer;">Lọc dữ liệu</button>
+    </form>
+
+    <div class="stat-cards">
+        <div class="card">
+            <i class="fa fa-dollar-sign bg-blue"></i>
+            <div><p style="color: #888; margin: 0;">Doanh thu</p><h3 th:text="${#numbers.formatDecimal(revenue, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</h3></div>
+        </div>
+        <div class="card">
+            <i class="fa fa-shopping-cart bg-green"></i>
+            <div><p style="color: #888; margin: 0;">Đơn hàng</p><h3 th:text="${orderCount}">0</h3></div>
+        </div>
+        <div class="card">
+            <i class="fa fa-users bg-orange"></i>
+            <div><p style="color: #888; margin: 0;">Khách hàng</p><h3 th:text="${customerCount}">0</h3></div>
+        </div>
+        <div class="card">
+            <i class="fa fa-box bg-purple"></i>
+            <div><p style="color: #888; margin: 0;">Sản phẩm</p><h3 th:text="${productCount}">0</h3></div>
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <div class="chart-box">
+            <h4>Biểu đồ doanh thu (Đơn vị: Triệu VNĐ)</h4>
+            <div class="chart-wrapper" style="position: relative; height: 300px; width: 100%;">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+
+        <div class="pending-box">
+            <h4>Đơn hàng cần duyệt</h4>
+            <div th:each="o : ${pendingOrders}" class="pending-item">
+                <div>
+                    <strong th:text="'#' + ${o.id}"></strong> - <span th:text="${o.customer?.username}"></span><br>
+                    <small th:text="${#numbers.formatDecimal(o.totalAmount, 0, 'COMMA', 0, 'POINT')} + 'đ'"></small>
+                </div>
+                <a href="/admin/order">Duyệt ngay</a>
+            </div>
+            <p th:if="${#lists.isEmpty(pendingOrders)}" style="color: #888; text-align: center; margin-top: 20px;">Tất cả đơn hàng đã được xử lý!</p>
+        </div>
+    </div>
+
+    <h3 style="color: #2c3e50; margin-bottom: 20px;"><i class="fa fa-star" style="color: #f1c40f;"></i> Top sản phẩm bán chạy</h3>
+    <div class="stat-cards" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="card" th:each="p : ${bestSellers}" style="flex-direction: column; text-align: center;">
+            <img th:src="@{'/images/products/' + ${p.image}}" style="height: 100px; border-radius: 8px;">
+            <p th:text="${p.name}" style="font-weight: bold; margin: 10px 0 5px;"></p>
+            <span style="color: #d0021b;" th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    // Nhận dữ liệu thật từ Controller
+    const labels = [[${chartLabels}]];
+    const dataRevenue = [[${chartData}]];
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Doanh thu thực tế',
+                data: dataRevenue,
+                borderColor: '#4a90e2',
+                backgroundColor: 'rgba(74, 144, 226, 0.1)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 5,
+                pointBackgroundColor: '#4a90e2'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+</body>
+</html>

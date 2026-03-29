@@ -188,7 +188,31 @@
     transition: 0.3s;
 }
 .empty-state a:hover { background: #4a90e2; color: white; }
+/* CSS cho cái popup */
+.toast-popup {
+    position: fixed;
+    top: 80px; /* Hiện ở góc trên bên phải, dưới thanh header 1 chút */
+    right: 30px;
+    background-color: #28a745; /* Màu xanh lá thành công của Bootstrap */
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 9999;
 
+    /* Hiệu ứng trượt */
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Hiệu ứng nảy nảy nhẹ */
+}
+
+.toast-popup.show {
+    transform: translateX(0);
+}
 /* ===== BOX ĐỊA CHỈ ===== */
 .address-box {
     border: 1px solid #cfe8ff;

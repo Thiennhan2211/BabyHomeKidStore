@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title th:text="${pageTitle} + ' - BabyHome'">Bộ Sưu Tập</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styleindex.css">
+
+    <link rel="stylesheet" href="/css/collection.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+<div id="toastMessage" class="custom-toast">
+    <i class="fa fa-check-circle fs-5"></i> <span>Đã thêm vào giỏ hàng!</span>
+</div>
+<div th:replace="~{index :: header}"></div>
+
+<div class="collection-container">
+    <h1 class="page-title" th:text="${pageTitle}">THỜI TRANG BÉ GÁI</h1>
+
+    <div class="filter-bar">
+        <button class="filter-btn active" style="font-weight: bold;"><i class="fa fa-filter"></i> Lọc</button>
+        <button class="filter-btn">Giới tính <i class="fa fa-chevron-down"></i></button>
+        <button class="filter-btn">Độ tuổi <i class="fa fa-chevron-down"></i></button>
+        <button class="filter-btn">Cân nặng <i class="fa fa-chevron-down"></i></button>
+        <button class="filter-btn">Loại sản phẩm <i class="fa fa-chevron-down"></i></button>
+        <button class="filter-btn">Màu sắc <i class="fa fa-chevron-down"></i></button>
+        <button class="filter-btn">Giá <i class="fa fa-chevron-down"></i></button>
+    </div>
+
+    <div class="sort-box">
+        Xếp theo:
+        <select>
+            <option>Sản phẩm nổi bật</option>
+            <option>Giá: Tăng dần</option>
+            <option>Giá: Giảm dần</option>
+            <option>Mới nhất</option>
+        </select>
+    </div>
+
+    <div class="products" th:if="${products != null and !products.isEmpty()}" style="justify-content: flex-start; gap: 20px;">
+        <div class="product" th:each="p : ${products}" style="margin: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <div class="product-img">
+                <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}">
+                    <img th:src="@{/images/products/{img}(img=${p.image})}">
+                </a>
+            </div>
+
+            <div class="product-actions-vertical">
+                <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}" class="action-btn"><i class="fa fa-eye"></i></a>
+                <div class="action-btn" style="position: relative;" onclick="toggleSizePopupNew(this, event)">
+                    <i class="fa fa-shopping-bag"></i>
+
+                    <div class="size-popup" onclick="event.stopPropagation()">
+                        <div class="popup-title">Thêm nhanh vào giỏ</div>
+
+                        <th:block th:if="${not #strings.isEmpty(p.size)}">
+                            <button th:each="s : ${#strings.arraySplit(p.size, '|')}" th:text="${s}" th:data-id="${p.id}" th:data-size="${s}" onclick="confirmAddCart(this.getAttribute('data-id'), this.getAttribute('data-size'))"></button>
+                        </th:block>
+                        <th:block th:if="${#strings.isEmpty(p.size)}">
+                            <button th:data-id="${p.id}" data-size="Freesize" onclick="confirmAddCart(this.getAttribute('data-id'), this.getAttribute('data-size'))">Freesize</button>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 10px;">
+                <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}" th:text="${p.name}" style="text-decoration: none; color: inherit;"></a>
+            </h3>
+            <p style="color: #d0021b; font-weight: bold;" th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></p>
+            <div class="colors" th:id="|color-group-${p.id}|">
+                <th:block th:if="${not #strings.isEmpty(p.color)}">
+                    <th:block th:each="c, stat : ${#strings.arraySplit(p.color, '|')}">
+
+            <span th:with="colorArr=${#strings.arraySplit(c, ':')}"
+                  class="color"
+                  th:classappend="${stat.index == 0 ? 'active' : ''}"
+                  th:style="'background-color: ' + ${colorArr[0]}"
+                  th:attr="data-color=${#arrays.length(colorArr) > 1 ? colorArr[1] : colorArr[0]}"
+                  th:title="${#arrays.length(colorArr) > 1 ? colorArr[1] : colorArr[0]}">
+            </span>
+
+                    </th:block>
+                </th:block>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${products == null or products.isEmpty()}" style="text-align: center; padding: 50px 0; color: #888;">
+        <i class="fa fa-box-open" style="font-size: 50px; margin-bottom: 20px; color: #ccc;"></i>
+        <h4>Không tìm thấy sản phẩm nào trong danh mục này.</h4>
+    </div>
+
+</div>
+<footer class="footer">
+    <div class="subscribe">
+        <h4>Đăng ký nhận tin</h4>
+        <h5>Đăng ký ngay và là người đầu tiên nắm được thông tin khi nhà BabyHome có bộ sưu tập mới, khuyến mãi mới, và các sự kiện sắp diễn ra</h5>
+        <div class="form-sub">
+            <input type="email" placeholder="Nhập email">
+            <button>Đăng ký</button>
+        </div>
+    </div>
+    <div class="footer-content">
+        <div>
+            <h4>Về BabyHome</h4>
+            <a href="#">Tin tức nhà BabyHome</a>
+            <a href="#">Tuyển dụng BabyHome</a>
+        </div>
+        <div>
+            <h4>Hỗ trợ</h4>
+            <a href="#">Chính sách đổi trả</a>
+            <a href="#">Hướng dẫn chọn size</a>
+            <a href="#">Hướng dẫn giặt quần áo</a>
+            <a href="#">Tra cứu đơn hàng</a>
+            <a href="#">Giao hàng & phí giao hàng</a>
+        </div>
+        <div>
+            <h4>Kết nối</h4>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+    </div>
+</footer>
+<script>
+    function toggleSizePopupNew(btn, event) {
+        // Ngăn chặn sự kiện click lan ra ngoài
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Tìm đúng cái bảng size bên trong nút vừa bấm
+        const currentPopup = btn.querySelector('.size-popup');
+
+        // Đóng tất cả các bảng size khác đang mở
+        document.querySelectorAll('.size-popup').forEach(popup => {
+            if (popup !== currentPopup) {
+                popup.classList.remove('show');
+            }
+        });
+
+        // Bật/tắt bảng size của nút hiện tại
+        if(currentPopup) {
+            currentPopup.classList.toggle('show');
+        }
+    }
+
+    // Bấm ra ngoài khoảng trống sẽ tự động đóng bảng size
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.size-popup').forEach(popup => {
+            popup.classList.remove('show');
+        });
+    });
+    // ===== 1. LOGIC CLICK CHỌN MÀU =====
+    document.querySelectorAll(".colors").forEach(group => {
+        const colors = group.querySelectorAll(".color");
+        colors.forEach(c => {
+            c.addEventListener("click", () => {
+                colors.forEach(x => x.classList.remove("active"));
+                c.classList.add("active");
+            });
+        });
+    });
+
+    // ===== 2. HIỆN THÔNG BÁO VÀ RELOAD TRANG =====
+    function showToastAndReload() {
+        const toast = document.getElementById("toastMessage");
+        if(toast) toast.classList.add("show");
+        setTimeout(() => { window.location.reload(); }, 1200);
+    }
+
+    // ===== 3. HÀM BẮN API THÊM GIỎ HÀNG THỰC TẾ =====
+    function confirmAddCart(productId, size) {
+        const colorGroup = document.getElementById('color-group-' + productId);
+        let color = 'Mặc định';
+
+        if (colorGroup) {
+            const activeColorSpan = colorGroup.querySelector('.color.active');
+            if (activeColorSpan) {
+                color = activeColorSpan.getAttribute('data-color');
+            }
+        }
+
+        // Gọi API backend (Đảm bảo y chang bên index.html)
+        fetch(`/api/cart/add?productId=${productId}&quantity=1&color=${encodeURIComponent(color)}&size=${encodeURIComponent(size)}`, { method: 'POST' })
+            .then(res => {
+                if(res.ok) {
+                    showToastAndReload();
+                } else {
+                    alert("Lỗi! Không thể thêm vào giỏ hàng.");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Lỗi kết nối đến máy chủ.");
+            });
+    }
+</script>
+</body>
+</html>
