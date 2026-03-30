@@ -5,6 +5,7 @@ import com.kidstore.DoubleN_kidstore.entity.Order; // IMPORT THÊM ORDER
 import com.kidstore.DoubleN_kidstore.model.Product;
 import com.kidstore.DoubleN_kidstore.repository.UserRepository;
 import com.kidstore.DoubleN_kidstore.repository.OrderRepository; // IMPORT THÊM ORDER REPOSITORY
+import com.kidstore.DoubleN_kidstore.service.CloudinaryService;
 import com.kidstore.DoubleN_kidstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -13,9 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -34,6 +37,7 @@ public class HomeController {
 
     @Autowired
     private com.kidstore.DoubleN_kidstore.repository.VoucherRepository voucherRepository;
+
 
     @GetMapping("/")
     public String home(Model model){
@@ -175,4 +179,5 @@ public class HomeController {
         model.addAttribute("pageTitle", pageTitle);
         return "collection";
     }
+
 }

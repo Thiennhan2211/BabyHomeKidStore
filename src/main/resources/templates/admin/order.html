@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Order Management</title>
+    <link rel="stylesheet" th:href="@{/css/order.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="header">
+    <div class="logo">
+        <img th:src="@{/images/logo.jpg}" alt="Logo">
+    </div>
+
+    <div class="nav">
+        <a href="/admin/home">Home</a>
+        <a href="/admin/category">Category</a>
+        <a href="/admin/product">Product</a>
+        <a href="/admin/order" class="active">Order</a>
+        <a href="/admin/customer">Customer</a>
+        <a href="/admin/voucher">Voucher</a>
+    </div>
+
+    <div class="right-header">
+        <span>Hi <span th:text="${#authentication.name}"></span></span>
+        <form method="post" action="/logout" style="margin: 0;">
+            <button type="submit" class="logout">Logout</button>
+        </form>
+    </div>
+</div>
+
+<h2 class="title">Order Management</h2>
+
+<div class="container-full">
+    <table>
+        <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Creation Date</th>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="o : ${orders}" class="clickable-row" th:onclick="'showDetail(' + ${o.id} + ')'">
+            <td th:text="'#' + ${o.id}" style="font-weight: bold; color: #4a90e2;"></td>
+            <td th:text="${#dates.format(o.createDate, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${o.customer?.username}"></td>
+            <td th:text="${o.phone}"></td>
+            <td th:text="${#numbers.formatDecimal(o.totalAmount, 0, 'COMMA', 0, 'POINT') + 'đ'}" style="font-weight: bold; color: #d0021b;"></td>
+
+            <td>
+                <span th:id="'st-' + ${o.id}"
+                      th:class="'status-badge ' + (${o.status == 'pending'} ? 'status-pending' : (${o.status == 'APPROVED'} ? 'status-completed' : 'status-cancelled'))"
+                      th:text="${o.status}">
+                </span>
+            </td>
+
+            <td>
+                <div th:if="${o.status == 'pending'}" th:id="'act-' + ${o.id}">
+                    <button type="button" style="background: #28a745; border: none; color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-right: 5px;"
+                            th:onclick="'event.stopPropagation(); updateStatus(' + ${o.id} + ', \'APPROVED\')'" title="Duyệt đơn"><i class="fa fa-check"></i></button>
+                    <button type="button" style="background: #dc3545; border: none; color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer;"
+                            th:onclick="'event.stopPropagation(); updateStatus(' + ${o.id} + ', \'CANCELED\')'" title="Hủy đơn"><i class="fa fa-times"></i></button>
+                </div>
+            </td>
+        </tr>
+        <tr th:if="${orders == null || orders.isEmpty()}">
+            <td colspan="7" style="text-align: center; padding: 30px; color: #888; font-size: 16px;">
+                <i class="fa fa-box-open" style="font-size: 40px; color: #ccc; display: block; margin-bottom: 10px;"></i>
+                Chưa có đơn hàng nào
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h3 style="color: #4a90e2; border-bottom: 2px solid #cfe8ff; padding-bottom: 10px;">
+            Order Detail <span id="modalOrderId" style="color: #d0021b;"></span>
+        </h3>
+
+        <table style="margin-top: 10px;">
+            <thead>
+            <tr style="background: #f0f8ff;">
+                <th style="color: #333;">No.</th>
+                <th style="color: #333; text-align: left;">Product Name</th>
+                <th style="color: #333;">Unit Price</th>
+                <th style="color: #333;">Quantity</th>
+                <th style="color: #333;">Amount</th>
+            </tr>
+            </thead>
+            <tbody id="modalDetailBody">
+            </tbody>
+        </table>
+
+        <div style="text-align: right; margin-top: 20px; font-size: 20px;">
+            <strong>Total Amount: </strong> <span id="modalDetailTotal" style="color: #d0021b; font-weight: bold;">0đ</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Hàm gọi API và hiển thị Modal
+    async function showDetail(id) {
+        try {
+            const res = await fetch('/admin/order/details/' + id);
+            const items = await res.json();
+
+            const body = document.getElementById('modalDetailBody');
+            body.innerHTML = '';
+            let totalAmount = 0;
+
+            items.forEach((item, index) => {
+                const amount = item.price * item.quantity;
+                totalAmount += amount;
+
+                body.innerHTML += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td style="text-align: left; font-weight: 500;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <img src="/images/products/${item.productId}.jpg" width="50" height="50" style="border-radius: 4px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/50'">
+                                    <span>${item.productName}</span>
+                                </div>
+                            </td>
+                            <td>${item.price.toLocaleString('vi-VN')}đ</td>
+                            <td>${item.quantity}</td>
+                            <td style="color: #d0021b; font-weight: bold;">${amount.toLocaleString('vi-VN')}đ</td>
+                        </tr>`;
+            });
+
+            document.getElementById('modalOrderId').innerText = "#" + id;
+            document.getElementById('modalDetailTotal').innerText = totalAmount.toLocaleString('vi-VN') + "đ";
+
+            document.getElementById('orderModal').style.display = 'flex';
+
+        } catch (error) {
+            alert("Lỗi không thể tải chi tiết đơn hàng!");
+        }
+    }
+
+    // Hàm đóng Modal
+    function closeModal() {
+        document.getElementById('orderModal').style.display = 'none';
+    }
+
+    // Đóng khi click ngoài vùng đen
+    window.onclick = function(event) {
+        const modal = document.getElementById('orderModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Hàm Cập nhật trạng thái
+    async function updateStatus(id, status) {
+        if (!confirm("Xác nhận chuyển trạng thái đơn hàng #" + id + " thành " + status + "?")) return;
+
+        try {
+            const res = await fetch(`/admin/order/status/${id}?status=${status}`, { method: 'POST' });
+            if (res.ok) {
+                const badge = document.getElementById('st-' + id);
+                badge.innerText = status;
+
+                if(status === 'APPROVED') {
+                    badge.className = 'status-badge status-completed';
+                } else {
+                    badge.className = 'status-badge status-cancelled';
+                }
+                document.getElementById('act-' + id).style.display = 'none';
+            } else {
+                alert("Cập nhật thất bại!");
+            }
+        } catch (error) {
+            alert("Lỗi kết nối đến máy chủ!");
+        }
+    }
+</script>
+</body>
+</html>

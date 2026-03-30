@@ -2,11 +2,14 @@ package com.kidstore.DoubleN_kidstore.controller;
 
 import com.kidstore.DoubleN_kidstore.model.Product;
 import com.kidstore.DoubleN_kidstore.repository.ProductRepository;
+import com.kidstore.DoubleN_kidstore.service.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +18,8 @@ public class AdminProductController {
 
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     // Tự tạo một danh sách Category bằng chữ để truyền xuống giao diện (Thay cho cái Bảng rác đã xóa)
     List<String> categories = Arrays.asList("shirt", "pants", "dress", "set", "jacket", "shoes");
@@ -61,5 +66,22 @@ public class AdminProductController {
     public String delete(@PathVariable Long id){
         productRepository.deleteById(id);
         return "redirect:/admin/product";
+    }
+    @PostMapping("/admin/product/save")
+    public String saveProduct(@RequestParam("imageFile") MultipartFile file, Product product) throws IOException {
+
+        // Nếu admin có chọn file ảnh mới
+        if (!file.isEmpty()) {
+            // Bắn file lên Cloudinary, lấy link URL về
+            String imageUrl = cloudinaryService.uploadImage(file);
+
+            // Lưu cái link HTTPS đó vào Database thay vì tên file cũ
+            product.setImage(imageUrl);
+        }
+
+        // Lưu sản phẩm vào DB
+        productRepository.save(product);
+
+        return "redirect:/admin/product"; // Quay lại trang danh sách SP
     }
 }
