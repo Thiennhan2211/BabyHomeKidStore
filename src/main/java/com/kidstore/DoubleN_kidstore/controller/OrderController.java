@@ -145,7 +145,7 @@ public class OrderController {
     public String showAdminOrderPage(Model model) {
         List<Order> orders = orderRepository.findAll();
         model.addAttribute("orders", orders);
-        return "order";
+        return "admin/order";
     }
 
     // ----- PHẦN 4: ADMIN LẤY CHI TIẾT ĐƠN HÀNG ĐỂ HIỆN POPUP (AJAX) -----
