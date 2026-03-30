@@ -43,7 +43,7 @@
         <div class="product" th:each="p : ${products}" style="margin: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
             <div class="product-img">
                 <a th:href="@{/product/{slug}/{id}(slug=${p.slug}, id=${p.id})}">
-                    <img th:src="@{/images/products/{img}(img=${p.image})}">
+                    <img th:src="${p.image}">
                 </a>
             </div>
 

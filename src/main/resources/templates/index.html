@@ -124,7 +124,7 @@
 
                     <div th:if="${not #lists.isEmpty(session.cart)}">
                         <div class="cart-item-mini" th:each="item : ${session.cart}">
-                            <img th:src="|/images/products/${item.image != null ? item.image : 'default.jpg'}|">
+                            <img th:src="${item.image != null ? item.image : '/images/logo.jpg'}">
                             <div class="cart-item-info">
                                 <div class="cart-item-name" th:text="${item.name}">Tên SP</div>
                                 <div class="cart-item-variant" th:text="${#strings.contains(item.color, ':') ? #strings.substringAfter(item.color, ':') : item.color} + ' / ' + ${item.size}">Color/Size</div>
@@ -161,7 +161,7 @@
         <div class="product" th:each="p : ${products}">
             <div class="product-img">
                 <a th:href="|/product/${p.slug != null ? p.slug : 'sp'}/${p.id}|">
-                    <img th:src="|/images/products/${p.image != null ? p.image : 'default.jpg'}|">
+                    <img th:src="${p.image != null ? p.image : '/images/logo.jpg'}">
                 </a>
             </div>
 
@@ -222,7 +222,7 @@
         <div class="product" th:each="p : ${products}">
             <div class="product-img">
                 <a th:href="|/product/${p.slug != null ? p.slug : 'sp'}/${p.id}|">
-                    <img th:src="|/images/products/${p.image != null ? p.image : 'default.jpg'}|">
+                    <img th:src="${p.image != null ? p.image : '/images/logo.jpg'}">
                 </a>
             </div>
 
@@ -270,7 +270,7 @@
             <div class="product" th:each="p : ${bestSellers}">
                 <div class="product-img">
                     <a th:href="|/product/${p.slug != null ? p.slug : 'sp'}/${p.id}|">
-                        <img th:src="|/images/products/${p.image != null ? p.image : 'default.jpg'}|">
+                        <img th:src="${p.image != null ? p.image : '/images/logo.jpg'}">
                     </a>
                     <div style="position: absolute; top: 10px; left: -5px; background: #d0021b; color: white; padding: 3px 10px; font-size: 11px; font-weight: bold; border-radius: 0 4px 4px 0; z-index: 2;">HOT</div>
                 </div>
@@ -332,7 +332,7 @@
         <div class="product" th:each="p : ${girlProducts}" th:attr="data-type=${p.category}">
             <div class="product-img">
                 <a th:href="|/product/${p.slug != null ? p.slug : 'sp'}/${p.id}|">
-                    <img th:src="|/images/products/${p.image != null ? p.image : 'default.jpg'}|">
+                    <img th:src="${p.image != null ? p.image : '/images/logo.jpg'}">
                 </a>
             </div>
 
@@ -386,7 +386,7 @@
         <div class="product" th:each="p : ${boyProducts}" th:attr="data-type=${p.category}">
             <div class="product-img">
                 <a th:href="|/product/${p.slug != null ? p.slug : 'sp'}/${p.id}|">
-                    <img th:src="|/images/products/${p.image != null ? p.image : 'default.jpg'}|">
+                    <img th:src="${p.image != null ? p.image : '/images/logo.jpg'}">
                 </a>
             </div>
 
