@@ -367,6 +367,9 @@
     // ==========================================
     // 4. CLICK VÀO HÀNG ĐỂ SỬA
     // ==========================================
+    // ==========================================
+    // 4. CLICK VÀO HÀNG ĐỂ SỬA
+    // ==========================================
     function selectProduct(row){
         document.getElementById("id").value = row.dataset.id || "";
         document.getElementById("name").value = row.dataset.name || "";
@@ -377,9 +380,12 @@
 
         const preview = document.getElementById("preview");
         if(row.dataset.image){
-            preview.src = "/images/products/" + row.dataset.image;
+            // ĐÃ SỬA: Xoá chữ "/images/products/", gán trực tiếp link Cloudinary
+            preview.src = row.dataset.image;
             preview.style.display = "block";
-        } else { preview.style.display = "none"; }
+        } else {
+            preview.style.display = "none";
+        }
 
         selectedColors = row.dataset.color ? row.dataset.color.split("|") : [];
         selectedSizes = row.dataset.size ? row.dataset.size.split("|") : [];
