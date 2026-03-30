@@ -35,27 +35,42 @@ public class AdminProductController {
     }
 
     // ADD
+    // ADD SẢN PHẨM MỚI
     @PostMapping("/admin/product/add")
     public String add(Product product,
                       @RequestParam(value = "categoryId", required = false) String categoryId,
-                      @RequestParam(value = "category", required = false) String category) {
+                      @RequestParam(value = "category", required = false) String category,
+                      @RequestParam(value = "imageFile", required = false) MultipartFile file) throws IOException {
 
-        // Đề phòng HTML của bạn dùng name="categoryId" hay name="category" thì máy chủ đều bắt được hết
         String finalCategory = (category != null && !category.isEmpty()) ? category : categoryId;
         product.setCategory(finalCategory);
+
+        // Nếu admin có chọn file ảnh
+        if (file != null && !file.isEmpty()) {
+            String imageUrl = cloudinaryService.uploadImage(file);
+            product.setImage(imageUrl); // Lưu link web vào Database
+        }
 
         productRepository.save(product);
         return "redirect:/admin/product";
     }
 
-    // UPDATE
+    // CẬP NHẬT SẢN PHẨM
     @PostMapping("/admin/product/update")
     public String update(Product product,
                          @RequestParam(value = "categoryId", required = false) String categoryId,
-                         @RequestParam(value = "category", required = false) String category) {
+                         @RequestParam(value = "category", required = false) String category,
+                         @RequestParam(value = "imageFile", required = false) MultipartFile file) throws IOException {
 
         String finalCategory = (category != null && !category.isEmpty()) ? category : categoryId;
         product.setCategory(finalCategory);
+
+        // Nếu admin CHỌN ẢNH MỚI thì up lên mây và đè link mới
+        if (file != null && !file.isEmpty()) {
+            String imageUrl = cloudinaryService.uploadImage(file);
+            product.setImage(imageUrl);
+        }
+        // Nếu không chọn ảnh mới, Spring Boot sẽ tự giữ lại link ảnh cũ nhờ thẻ input hidden ở HTML
 
         productRepository.save(product);
         return "redirect:/admin/product";

@@ -78,7 +78,7 @@
     <div class="right">
         <h3 class="title">Product Detail</h3>
 
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <label>ID</label>
             <input type="text" id="id" name="id" readonly placeholder="Auto (Leave blank to Add)">
 
@@ -89,9 +89,11 @@
             <input type="number" id="price" name="price" required>
 
             <label>Image</label>
-            <button type="button" onclick="openImageModal()">Chọn ảnh</button>
+            <input type="file" id="imageFile" name="imageFile" accept="image/*" style="display: none;" onchange="previewNewImage()">
+            <button type="button" onclick="document.getElementById('imageFile').click()">Chọn ảnh (Từ máy tính)</button>
+
             <input type="hidden" id="image" name="image">
-            <img id="preview">
+            <img id="preview" style="max-width: 150px; margin-top: 10px; border-radius: 8px; display: none;">
 
             <label>Color</label>
             <button type="button" onclick="openColorModal()">Chọn màu</button>
@@ -394,6 +396,19 @@
             }
         } else {
             alert("Vui lòng chọn sản phẩm cần xoá ở bảng bên trái!");
+        }
+    }
+    // Hàm hiển thị ảnh xem trước khi vừa chọn file
+    function previewNewImage() {
+        const file = document.getElementById('imageFile').files[0];
+        const preview = document.getElementById('preview');
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
         }
     }
 </script>
