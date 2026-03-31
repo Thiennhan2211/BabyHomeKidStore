@@ -1,195 +1,117 @@
+/* ===== TỔNG THỂ ===== */
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #f4f7f6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5faff 0%, #d6f0ff 100%);
     color: #333;
+    min-height: 100vh;
 }
 
-/* HEADER & NAV */
+/* ===== HEADER & NAV ===== */
 .header {
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background: #cfe8ff;
+    color: white;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 10px 30px;
+    justify-content: space-between;
+    padding: 10px 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
 }
-.header .logo img {
-    height: 40px;
-}
-.nav {
-    display: flex;
-    gap: 20px;
-}
+
+.logo img { height: 50px; border-radius: 8px; transition: 0.3s; }
+
+.nav { display: flex; gap: 25px; }
 .nav a {
+    position: relative;
+    color: #444;
     text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    padding: 8px 15px;
-    border-radius: 5px;
-    transition: background 0.3s, color 0.3s;
+    font-weight: 600;
+    font-size: 15px;
+    transition: 0.3s;
 }
-.nav a:hover, .nav a.active {
-    background-color: #4a90e2;
-    color: #fff;
+.nav a:hover, .nav a.active { color: #4a90e2; }
+.nav a::after {
+    content: ""; position: absolute; left: 50%; bottom: -2px; width: 0; height: 3px;
+    background: #4a90e2; transition: 0.3s ease; transform: translateX(-50%); border-radius: 10px;
 }
-.right-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+.nav a:hover::after, .nav a.active::after { width: 100%; }
+.nav a.active { text-shadow: 0 0 10px rgba(74, 144, 226, 0.2); font-weight: 700; }
+
+.right-header { display: flex; align-items: center; gap: 20px; }
+.profile { display: flex; align-items: center; gap: 10px; color: #2c3e50; font-weight: 500; }
+
 .logout {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 6px 15px;
-    border-radius: 4px;
+    background: white !important;
+    color: #d0021b !important;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid #d0021b !important;
     cursor: pointer;
     font-weight: bold;
+    transition: 0.3s;
+    box-shadow: none !important;
+    margin: 0 !important;
 }
-.logout:hover {
-    background-color: #c82333;
-}
+.logout:hover { background: #fff5f5 !important; transform: scale(1.05) !important; }
 
-/* TIÊU ĐỀ TRANG */
+/* ===== TIÊU ĐỀ ===== */
+.main-title {
+    text-align: center; color: #2c3e50; margin-top: 30px; font-size: 28px; text-transform: uppercase; letter-spacing: 1px;
+}
 .title {
-    text-align: center;
-    color: #333;
-    margin: 30px 0;
-    font-size: 28px;
-    font-weight: bold;
+    text-align: left; color: #4a90e2; margin-bottom: 20px; font-size: 20px; font-weight: 700;
+    border-left: 5px solid #4a90e2; padding-left: 15px;
 }
 
-/* BỐ CỤC CHÍNH */
-.container-full {
-    display: flex;
-    gap: 20px;
-    padding: 0 30px;
-    margin-bottom: 50px;
-    align-items: flex-start;
+/* ===== CONTENT & CONTAINER ===== */
+.container {
+    display: flex; padding: 30px 5%; gap: 30px; max-width: 1400px; margin: 0 auto;
 }
+.left, .right {
+    background: white; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s;
+}
+.left:hover, .right:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+.left { flex: 1.2; }
+.right { flex: 0.8; height: fit-content; position: sticky; top: 90px; }
 
-/* CỘT TRÁI - UPLOAD BANNER */
-.upload-container {
-    flex: 1;
-    background: #fff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+/* ===== BẢNG DANH SÁCH ===== */
+table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; border-radius: 12px; overflow: hidden; border: 1px solid #f0f0f0; }
+th { background: #f8fbff; color: #4a90e2; padding: 18px 10px; font-weight: 700; text-transform: uppercase; font-size: 13px; border-bottom: 2px solid #cfe8ff; text-align: left;}
+td { padding: 15px 10px; border-bottom: 1px solid #f1f1f1; color: #555; font-size: 14px; vertical-align: middle; cursor: pointer; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background-color: #f9fcff; }
+.banner-img-preview { width: 150px; height: auto; border-radius: 6px; border: 1px solid #ddd; object-fit: cover;}
+
+/* ===== FORM NHẬP LIỆU ===== */
+input[type="text"] {
+    width: 100%; padding: 12px 15px; margin: 8px 0 18px 0; border-radius: 10px; border: 1.5px solid #e0e6ed;
+    background: #fcfdfe; font-size: 14px; box-sizing: border-box; transition: 0.3s;
 }
-.upload-title {
-    color: #4a90e2;
-    margin-top: 0;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 10px;
-}
+input[type="text"]:focus { border-color: #4a90e2; background: white; outline: none; box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1); }
+label { font-size: 14px; font-weight: 600; color: #34495e; margin-left: 2px; }
+
+/* ===== VÙNG TẢI ẢNH ===== */
 .upload-box {
-    border: 2px dashed #4a90e2;
-    border-radius: 8px;
-    padding: 40px 20px;
-    text-align: center;
-    cursor: pointer;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-    background-color: #f8fbff;
+    border: 2px dashed #4a90e2; border-radius: 10px; padding: 25px 15px; text-align: center;
+    cursor: pointer; background: #f8fbff; margin-bottom: 20px; transition: 0.3s; margin-top: 8px;
 }
-.upload-box:hover {
-    background-color: #eaf3ff;
-    border-color: #2171c7;
-}
-.upload-box i {
-    font-size: 45px;
-    color: #4a90e2;
-    margin-bottom: 15px;
-}
-.upload-box p {
-    margin: 0;
-    color: #666;
-    font-weight: 500;
-}
-#preview {
-    max-width: 100%;
-    margin-top: 20px;
-    border-radius: 8px;
-    display: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-.btn-upload {
-    width: 100%;
-    padding: 12px;
-    background: #28a745;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 16px;
-    transition: background 0.3s;
-}
-.btn-upload:hover {
-    background: #218838;
-}
+.upload-box:hover { background: #eaf3ff; border-color: #2171c7; }
 
-/* CỘT PHẢI - DANH SÁCH BANNER */
-.list-container {
-    flex: 2;
-    background: #fff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+/* ===== NÚT BẤM ===== */
+button {
+    padding: 12px 25px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer;
+    border: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-right: 8px; margin-top: 15px; display: inline-block;
+    background: linear-gradient(135deg, #cfe8ff, #6ec6ff); color: #003a70;
 }
-.list-container table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-.list-container th {
-    background-color: #4a90e2;
-    color: white;
-    padding: 12px;
-    text-align: left;
-    font-weight: bold;
-}
-.list-container td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    vertical-align: middle;
-}
-.list-container tr:hover {
-    background-color: #f9f9f9;
-}
-.banner-img-preview {
-    width: 180px;
-    height: auto;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-.cloud-link {
-    color: #4a90e2;
-    font-size: 13px;
-    word-break: break-all;
-    text-decoration: none;
-}
-.cloud-link:hover {
-    text-decoration: underline;
-    color: #2171c7;
-}
-.btn-delete {
-    background: #dc3545;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    transition: background 0.3s;
-}
-.btn-delete:hover {
-    background: #c82333;
+button:hover { background: linear-gradient(135deg, #6ec6ff, #cfe8ff); transform: translateY(-3px); box-shadow: 0 8px 15px rgba(110, 198, 255, 0.4); }
+button:active { transform: translateY(0) !important; box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important; }
+
+@media (max-width: 992px) {
+    .container { flex-direction: column; }
+    .left, .right { width: 100%; box-sizing: border-box; }
+    .right { margin-top: 20px; }
 }
