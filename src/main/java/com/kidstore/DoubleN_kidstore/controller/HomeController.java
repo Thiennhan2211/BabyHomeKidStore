@@ -38,6 +38,8 @@ public class HomeController {
     @Autowired
     private com.kidstore.DoubleN_kidstore.repository.VoucherRepository voucherRepository;
 
+    @Autowired
+    private com.kidstore.DoubleN_kidstore.repository.BannerRepository bannerRepository;
 
     @GetMapping("/")
     public String home(Model model){
@@ -54,19 +56,16 @@ public class HomeController {
         model.addAttribute("bestSellers", productService.getBestSellers(8));
 
         // banner
-        try {
-            File folder = new ClassPathResource("static/images").getFile();
+        // === KHU VỰC LOAD BANNER MỚI TỪ DATABASE ===
+        // Nhớ khai báo @Autowired private com.kidstore.DoubleN_kidstore.repository.BannerRepository bannerRepository; ở trên cùng file HomeController nhé
+        List<com.kidstore.DoubleN_kidstore.entity.Banner> bannerList = bannerRepository.findAll();
 
-            String[] banners = folder.list((dir, name) ->
-                    name.startsWith("banner") &&
-                            (name.endsWith(".jpg") || name.endsWith(".png"))
-            );
+        // Trích xuất lấy mỗi cái link URL để truyền xuống index.html cho khỏi bị lỗi code cũ
+        List<String> bannerUrls = bannerList.stream()
+                .map(com.kidstore.DoubleN_kidstore.entity.Banner::getImage)
+                .toList();
 
-            model.addAttribute("banners", banners);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        model.addAttribute("banners", bannerUrls);
 
         return "index";
     }

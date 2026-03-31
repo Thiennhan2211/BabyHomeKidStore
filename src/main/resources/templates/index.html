@@ -212,7 +212,7 @@
 <div th:if="${keyword == null}">
     <div class="banner">
         <div class="slides">
-            <img class="slide-img" th:each="b : ${banners}" th:src="|/images/${b}|">
+            <img class="slide-img" th:each="b : ${banners}" th:src="${b}">
         </div>
     </div>
 
