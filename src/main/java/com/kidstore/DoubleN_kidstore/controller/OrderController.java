@@ -157,6 +157,8 @@ public class OrderController {
             Map<String, Object> map = new HashMap<>();
             map.put("productId", d.getProduct().getId());
             map.put("productName", d.getProduct().getName());
+            // THÊM DÒNG NÀY ĐỂ TRẢ VỀ LINK ẢNH CLOUDINARY CHO POPUP
+            map.put("image", d.getProduct().getImage());
             map.put("quantity", d.getQuantity());
             map.put("price", d.getPrice());
             return map;

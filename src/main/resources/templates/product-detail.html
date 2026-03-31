@@ -12,38 +12,111 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* Sửa lỗi hover phần sản phẩm khác */
-        .products .product {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .products .product:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
-        }
-        .color-btn {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            box-shadow: 0 0 0 1px #ddd;
-        }
-        .btn-check-color:checked + .color-btn {
-            border: 2px solid white;
-            box-shadow: 0 0 0 2px #4a90e2;
-            transform: scale(1.1);
-        }
+        .products .product { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .products .product:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important; }
+        .color-btn { display: inline-block; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; box-shadow: 0 0 0 1px #ddd; }
+        .btn-check-color:checked + .color-btn { border: 2px solid white; box-shadow: 0 0 0 2px #4a90e2; transform: scale(1.1); }
     </style>
 </head>
 
 <body>
-<div id="toastMessage" class="custom-toast">
-    <i class="fa fa-check-circle fs-5"></i> <span>Đã thêm vào giỏ hàng!</span>
-</div>
+<div id="toastMessage" class="custom-toast"><i class="fa fa-check-circle fs-5"></i> <span>Đã thêm vào giỏ hàng!</span></div>
 
 <header class="header">
     <div class="logo"><a th:href="@{/}"><img th:src="@{/images/logo.jpg}"></a></div>
+
+    <nav class="menu">
+        <div class="menu-item">
+            <a href="/collection?gender=girl">Bé gái</a>
+            <div class="menu-dropdown">
+                <div class="mega-col">
+                    <b>Đầm váy</b>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=dress" style="color: inherit; text-decoration: none;">Tất cả đầm váy</a></li>
+                        <li><a href="/collection?gender=girl&category=dress" style="color: inherit; text-decoration: none;">Đầm công chúa</a></li>
+                    </ul>
+                </div>
+                <div class="mega-col">
+                    <b>Áo</b>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=shirt" style="color: inherit; text-decoration: none;">Tất cả áo</a></li>
+                        <li><a href="/collection?gender=girl&category=jacket" style="color: inherit; text-decoration: none;">Áo khoác</a></li>
+                    </ul>
+                </div>
+                <div class="mega-col">
+                    <b>Quần & Đồ bộ</b>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=pants" style="color: inherit; text-decoration: none;">Tất cả quần</a></li>
+                        <li><a href="/collection?gender=girl&category=set" style="color: inherit; text-decoration: none;">Đồ bộ (Set)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <a href="/collection?gender=boy">Bé trai</a>
+            <div class="menu-dropdown">
+                <div class="mega-col">
+                    <b>Áo</b>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=shirt" style="color: inherit; text-decoration: none;">Tất cả áo</a></li>
+                        <li><a href="/collection?gender=boy&category=jacket" style="color: inherit; text-decoration: none;">Áo khoác</a></li>
+                    </ul>
+                </div>
+                <div class="mega-col">
+                    <b>Quần & Đồ bộ</b>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=pants" style="color: inherit; text-decoration: none;">Tất cả quần</a></li>
+                        <li><a href="/collection?gender=boy&category=set" style="color: inherit; text-decoration: none;">Đồ bộ (Set)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <a href="/collection?category=shoes">Giày dép</a>
+            <div class="menu-dropdown">
+                <div class="mega-col">
+                    <b>Bé gái</b>
+                    <ul>
+                        <li><a href="/collection?gender=girl&category=shoes" style="color: inherit; text-decoration: none;">Tất cả giày dép nữ</a></li>
+                    </ul>
+                </div>
+                <div class="mega-col">
+                    <b>Bé trai</b>
+                    <ul>
+                        <li><a href="/collection?gender=boy&category=shoes" style="color: inherit; text-decoration: none;">Tất cả giày dép nam</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="icons">
+        <div class="icon phone">
+            <i class="fa fa-phone fs-5"></i>
+            <div class="custom-dropdown contact-box">
+                <div class="contact-item"><i class="fa fa-phone"></i><span>0939594215</span></div>
+            </div>
+        </div>
+
+        <div class="icon cart">
+            <a href="/cart" style="color:inherit; text-decoration:none; position:relative;">
+                <i class="fa fa-shopping-cart fs-5"></i>
+                <span class="cart-badge" th:text="${session.cart != null ? session.cart.size() : 0}">0</span>
+            </a>
+        </div>
+
+        <div class="icon">
+            <a sec:authorize="!isAuthenticated()" href="/login" style="color:inherit; text-decoration:none;">
+                <i class="fa fa-user fs-5"></i>
+            </a>
+            <a sec:authorize="isAuthenticated()" href="/profile" style="color:inherit; text-decoration:none; display: flex; align-items: center; gap: 8px;">
+                <i class="fa fa-user fs-5 text-primary"></i>
+                <span style="font-size: 14px; font-weight: bold; white-space: nowrap; color: #1e88e5;">Hi, <span sec:authentication="name">User</span></span>
+            </a>
+        </div>
+    </div>
 </header>
 
 <div class="container mt-4" style="margin-bottom: 50px;">
@@ -57,7 +130,7 @@
     <div class="product-detail-container">
         <div class="row">
             <div class="col-md-5 text-center position-relative">
-                <img th:src="@{/images/products/{img}(img=${product.image})}" class="img-fluid rounded" alt="Hình sản phẩm" style="max-height: 500px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <img th:src="${product.image != null ? product.image : '/images/logo.jpg'}" class="img-fluid rounded" alt="Hình sản phẩm" style="max-height: 500px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
             </div>
 
             <div class="col-md-7 ps-md-5">
@@ -65,10 +138,7 @@
                 <div class="mb-3 text-warning" style="font-size: 16px;">
                     <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
                     <span class="text-dark fw-bold ms-2">5.0</span>
-                    <span class="text-muted ms-2">(15 Đánh giá) | Đã bán: 102</span>
                 </div>
-                <p class="text-muted mb-2">Mã sản phẩm: <span class="fw-bold" th:text="${product.id}">123</span> | Danh mục: <span class="fw-bold" th:text="${product.category != null ? product.category : 'Thời trang'}">Thời trang</span></p>
-
                 <div class="price-box">
                     <p class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">199,000 ₫</p>
                 </div>
@@ -85,7 +155,11 @@
                                        th:value="${c}"
                                        autocomplete="off"
                                        th:checked="${stat.index == 0}">
-                                <label class="color-btn auto-color" th:for="'color_' + ${stat.index}" th:data-color="${c}"></label>
+                                <label class="color-btn"
+                                       th:for="'color_' + ${stat.index}"
+                                       th:with="colorArr=${#strings.arraySplit(c, ':')}"
+                                       th:style="'background-color: ' + ${colorArr[0]}"
+                                       th:title="${#arrays.length(colorArr) > 1 ? colorArr[1] : colorArr[0]}"></label>
                             </th:block>
                         </div>
                     </div>
@@ -124,7 +198,7 @@
             <div class="product" th:each="related : ${relatedProducts}" style="width: 23%; min-width: 200px; border-radius: 12px; overflow: hidden; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
                 <div class="product-img" style="position: relative; overflow: hidden;">
                     <a th:href="@{/product/{slug}/{id}(slug=${related.slug}, id=${related.id})}">
-                        <img th:src="@{/images/products/{img}(img=${related.image})}" alt="Hình sản phẩm" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img th:src="${related.image != null ? related.image : '/images/logo.jpg'}" alt="Hình sản phẩm" style="width: 100%; height: 200px; object-fit: cover;">
                     </a>
                 </div>
                 <div style="padding: 15px;">
@@ -140,34 +214,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // TỰ ĐỘNG PHIÊN DỊCH MÀU SẮC TỪ TIẾNG VIỆT SANG MÃ MÀU CSS
-    document.addEventListener("DOMContentLoaded", function() {
-        const colorDictionary = {
-            'trắng': '#FFFFFF', 'đen': '#000000', 'đỏ': '#FF0000', 'xanh dương': '#1E90FF',
-            'xanh lá': '#32CD32', 'vàng': '#FFD700', 'hồng': '#FFB6C1', 'cam': '#FFA500',
-            'xám': '#808080', 'nâu': '#8B4513', 'tím': '#8A2BE2'
-        };
-
-        document.querySelectorAll('.auto-color').forEach(label => {
-            let colorName = label.getAttribute('data-color').trim().toLowerCase();
-
-            // Nếu là mã màu RGB có sẵn thì giữ nguyên
-            if(colorName.startsWith('rgb') || colorName.startsWith('#')) {
-                label.style.backgroundColor = colorName;
-            }
-            // Nếu là tiếng Việt thì dịch ra màu
-            else if (colorDictionary[colorName]) {
-                label.style.backgroundColor = colorDictionary[colorName];
-                // Thêm viền xám cho màu trắng để dễ nhìn
-                if (colorName === 'trắng') label.style.border = '1px solid #ccc';
-            } else {
-                // Nếu màu lạ quá không biết, cho màu mặc định là xám nhạt
-                label.style.backgroundColor = '#e0e0e0';
-            }
-        });
-    });
-
-    // Các hàm Số lượng và Add to Cart giữ nguyên
     function increaseQty() {
         let input = document.getElementById('qtyInput');
         let currentVal = parseInt(input.value);
@@ -178,7 +224,25 @@
         let currentVal = parseInt(input.value);
         if (!isNaN(currentVal) && currentVal > 1) { input.value = currentVal - 1; }
     }
-    // ...
+
+    // GỌI API THÊM VÀO GIỎ
+    function addToCartDetail(event) {
+        event.preventDefault();
+        const productId = document.querySelector('input[name="productId"]').value;
+        const quantity = document.querySelector('input[name="quantity"]').value;
+        const sizeEl = document.querySelector('input[name="size"]:checked');
+        const size = sizeEl ? sizeEl.value : 'Freesize';
+        const colorEl = document.querySelector('input[name="color"]:checked');
+        const color = colorEl ? colorEl.value : 'Mặc định';
+
+        fetch(`/api/cart/add?productId=${productId}&quantity=${quantity}&color=${encodeURIComponent(color)}&size=${encodeURIComponent(size)}`, { method: 'POST' })
+            .then(res => {
+                if(res.ok) {
+                    document.getElementById("toastMessage").classList.add("show");
+                    setTimeout(() => { window.location.reload(); }, 1200);
+                }
+            });
+    }
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin - Order Management</title>
-    <link rel="stylesheet" th:href="@{/css/order.css}">
+    <link rel="stylesheet" href="/css/order.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -107,7 +107,6 @@
 </div>
 
 <script>
-    // Hàm gọi API và hiển thị Modal
     async function showDetail(id) {
         try {
             const res = await fetch('/admin/order/details/' + id);
@@ -121,12 +120,13 @@
                 const amount = item.price * item.quantity;
                 totalAmount += amount;
 
+                // ĐÃ FIX: Dùng trực tiếp item.image (Cloudinary) thay vì nối chuỗi .jpg
                 body.innerHTML += `
                         <tr>
                             <td>${index + 1}</td>
                             <td style="text-align: left; font-weight: 500;">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <img src="/images/products/${item.productId}.jpg" width="50" height="50" style="border-radius: 4px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/50'">
+                                    <img src="${item.image ? item.image : '/images/logo.jpg'}" width="50" height="50" style="border-radius: 4px; object-fit: cover;">
                                     <span>${item.productName}</span>
                                 </div>
                             </td>
@@ -138,7 +138,6 @@
 
             document.getElementById('modalOrderId').innerText = "#" + id;
             document.getElementById('modalDetailTotal').innerText = totalAmount.toLocaleString('vi-VN') + "đ";
-
             document.getElementById('orderModal').style.display = 'flex';
 
         } catch (error) {
@@ -146,41 +145,24 @@
         }
     }
 
-    // Hàm đóng Modal
-    function closeModal() {
-        document.getElementById('orderModal').style.display = 'none';
-    }
-
-    // Đóng khi click ngoài vùng đen
+    function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
     window.onclick = function(event) {
         const modal = document.getElementById('orderModal');
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
+        if (event.target == modal) { modal.style.display = "none"; }
     }
 
-    // Hàm Cập nhật trạng thái
     async function updateStatus(id, status) {
         if (!confirm("Xác nhận chuyển trạng thái đơn hàng #" + id + " thành " + status + "?")) return;
-
         try {
             const res = await fetch(`/admin/order/status/${id}?status=${status}`, { method: 'POST' });
             if (res.ok) {
                 const badge = document.getElementById('st-' + id);
                 badge.innerText = status;
-
-                if(status === 'APPROVED') {
-                    badge.className = 'status-badge status-completed';
-                } else {
-                    badge.className = 'status-badge status-cancelled';
-                }
+                if(status === 'APPROVED') { badge.className = 'status-badge status-completed'; }
+                else { badge.className = 'status-badge status-cancelled'; }
                 document.getElementById('act-' + id).style.display = 'none';
-            } else {
-                alert("Cập nhật thất bại!");
-            }
-        } catch (error) {
-            alert("Lỗi kết nối đến máy chủ!");
-        }
+            } else { alert("Cập nhật thất bại!"); }
+        } catch (error) { alert("Lỗi kết nối đến máy chủ!"); }
     }
 </script>
 </body>

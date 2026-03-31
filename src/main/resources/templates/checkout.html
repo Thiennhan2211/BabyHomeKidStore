@@ -78,7 +78,7 @@
                     <div class="c-title">Giỏ hàng</div>
                     <div style="max-height: 300px; overflow-y: auto; padding-right: 5px;">
                         <div class="cart-item" th:each="item : ${cartItems}">
-                            <img th:src="@{/images/products/{img}(img=${item.image})}">
+                            <img th:src="${item.image != null ? item.image : '/images/logo.jpg'}">
                             <div class="cart-item-info">
                                 <div style="font-weight: bold; font-size: 14px; margin-bottom: 5px;" th:text="${item.name}">Tên SP</div>
                                 <div style="font-size: 12px; color: #666; background: #f5f5f5; padding: 3px 8px; border-radius: 4px; display: inline-block;" th:text="${item.color} + ' / ' + ${item.size}">Màu / Size</div>
