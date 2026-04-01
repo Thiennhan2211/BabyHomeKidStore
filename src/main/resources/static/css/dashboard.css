@@ -54,7 +54,7 @@ body {
 
 .nav a.active { font-weight: 700; text-shadow: 0 0 10px rgba(74, 144, 226, 0.1); }
 
-.right-header { display: flex; align-items: center; gap: 20px; }
+.right-header { display: flex; align-items: center; gap: 20px; color: black}
 
 .logout {
     background: white; color: #d0021b;
