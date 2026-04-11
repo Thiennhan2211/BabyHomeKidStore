@@ -180,7 +180,7 @@
                     <tr th:each="item : ${cartItems}">
                         <td class="text-start">
                             <div class="d-flex align-items-center">
-                                <img th:src="@{/images/products/{img}(img=${item.image})}" class="item-img me-3">
+                                <img th:src="${item.image != null ? item.image : '/images/logo.jpg'}" style="width: 80px; border-radius: 8px; object-fit: cover;">
                                 <div>
                                     <h6 class="mb-1 fw-bold" th:text="${item.name}"></h6>
                                     <span class="badge bg-light text-dark border"
